@@ -6,14 +6,32 @@ NSData * otb_enc_char(unsigned char val) {
 }
 
 unsigned char otb_dec_char(NSData * val) {
+    if([val length] < 2)
+        [NSException raise:OTB_DEC_EXC
+                    format:@"Can't decode char from %@, not enought length", val];
     unsigned char buf[2];
     [val getBytes:buf length:2];
+    if(buf[0] != 97)
+        [NSException raise:OTB_DEC_EXC
+                    format:@"Can't decode char from %@, invalid header %d", val, buf[0]];
     return buf[1];
 }
 
 NSData * otb_enc_int(int val) {
     unsigned char buf[] = {98, val >> 24, val >> 16, val >> 8, val};
     return [NSData dataWithBytes:buf length:5];
+}
+
+int otb_dec_int(NSData *val) {
+    if([val length] < 5)
+        [NSException raise:OTB_DEC_EXC
+                    format:@"Can't decode int from %@, not enought length", val];
+    unsigned char buf[5];
+    [val getBytes:buf length:5];
+    if(buf[0] != 98)
+        [NSException raise:OTB_DEC_EXC
+                    format:@"Can't decode int from %@, invalid header %d", val, buf[0]];
+    return (buf[1] << 24) + (buf[2] << 16) + (buf[3] << 8) + buf[4];
 }
 
 NSData * otb_enc_double(double val) {

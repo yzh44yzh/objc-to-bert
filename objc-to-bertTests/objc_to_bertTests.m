@@ -16,8 +16,28 @@
     STAssertEqualObjects(otb_enc_char(255), nsdata(b255, 2), @"enc char 255");
 }
 
-- (void)testEncInt {
+- (void)testDecChar {
+    uchar b0[] = {97, 0};
+    STAssertTrue(0 == otb_dec_char(nsdata(b0, 2)), @"dec char 0");
 
+    uchar b2[] = {97, 2};
+    STAssertTrue(2 == otb_dec_char(nsdata(b2, 2)), @"dec char 2");
+
+    uchar b99[] = {97, 99};
+    STAssertTrue(99 == otb_dec_char(nsdata(b99, 2)), @"dec char 99");
+
+    uchar b255[] = {97, 255};
+    STAssertTrue(255 == otb_dec_char(nsdata(b255, 2)), @"dec char 255");
+
+    uchar invalidBuf[] = {98, 255};
+    NSData *invalidData = nsdata(invalidBuf, 2);
+    STAssertThrows(otb_dec_char(invalidData), @"should be invalid header exception");
+
+    NSData *invalidData2 = nsdata(b255, 1);
+    STAssertThrows(otb_dec_char(invalidData2), @"should be invalid size exception");
+}
+
+- (void)testEncInt {
     uchar b256[] = {98, 0, 0, 1, 0};
     STAssertEqualObjects(otb_enc_int(256), nsdata(b256, 5), @"enc int 256");
 
@@ -53,6 +73,30 @@
 
     uchar bm2147483648[] = {98, 128, 0, 0, 0};
     STAssertEqualObjects(otb_enc_int(-2147483648), nsdata(bm2147483648, 5), @"enc int -2^31");
+}
+
+- (void)testDecInt {
+    uchar b256[] = {98, 0, 0, 1, 0};
+    STAssertTrue(256 == otb_dec_int(nsdata(b256, 5)), @"dec int 256");
+
+    uchar b1024[] = {98, 0, 0, 4, 0};
+    STAssertTrue(1024 == otb_dec_int(nsdata(b1024, 5)), @"dec int 1024");
+
+    uchar b2147483647[] = {98, 127, 255, 255, 255};
+    STAssertTrue(2147483647 == otb_dec_int(nsdata(b2147483647, 5)), @"dec int 2^31 - 1");
+
+    uchar bm1024[] = {98, 255, 255, 252, 0};
+    STAssertTrue(-1024 == otb_dec_int(nsdata(bm1024, 5)), @"dec int -1024");
+
+    uchar bm2147483648[] = {98, 128, 0, 0, 0};
+    STAssertTrue(-2147483648 == otb_dec_int(nsdata(bm2147483648, 5)), @"dec int -2^31");
+
+    uchar invalidBuf[] = {97, 0, 0, 1, 0};
+    NSData *invalidData = nsdata(invalidBuf, 5);
+    STAssertThrows(otb_dec_int(invalidData), @"should be invalid header exception");
+
+    NSData *invalidData2 = nsdata(b256, 2);
+    STAssertThrows(otb_dec_int(invalidData2), @"should be invalid size exception");
 }
 
 - (void)testEncDouble {
