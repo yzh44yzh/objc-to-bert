@@ -1,13 +1,15 @@
-//
-//  objc_to_bert.m
-//  objc-to-bert
-//
-//  Created by Yura Zhloba on 10/25/12.
-//  Copyright (c) 2012 Yura Zhloba. All rights reserved.
-//
-
 #import "objc_to_bert.h"
 
-@implementation objc_to_bert
+NSData * otb_enc_char(unsigned char val) {
+    char buf[] = {97, val};
+    return [NSData dataWithBytes:buf length:2];
+}
 
-@end
+NSData * otb_enc_int(int val) {
+    char buf[] = {98, val >> 24, val >> 16, val >> 8, val};
+    return [NSData dataWithBytes:buf length:5];
+}
+
+NSData * otb_enc_NSInteger(NSInteger val) {
+    return [NSData data];
+}
