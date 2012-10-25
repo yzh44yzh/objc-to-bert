@@ -35,7 +35,7 @@ int otb_dec_int(NSData *val) {
 }
 
 NSData * otb_enc_double(double val) {
-    unsigned char buf[32];
+    char buf[32];
     buf[0] = 99;
     for(char i = 1; i < 32; i++) buf[i] = 0;
     sprintf(buf + 1, "%.20e", val);
@@ -46,7 +46,7 @@ double otb_dec_double(NSData *val) {
     if([val length] < 32)
         [NSException raise:OTB_DEC_EXC
                     format:@"Can't decode double from %@, not enought length", val];
-    unsigned char buf[32];
+    char buf[32];
     [val getBytes:buf length:32];
     if(buf[0] != 99)
         [NSException raise:OTB_DEC_EXC
@@ -66,6 +66,19 @@ NSData * otb_enc_atom(NSString *name) {
     NSMutableData *data = [NSMutableData dataWithBytes:buf length:3];
     [data appendData:[name dataUsingEncoding:NSUTF8StringEncoding]];
     return data;
+}
+
+NSString * otb_dec_atom(NSData *val){
+    // TODO check size
+    unsigned char buf[3];
+    [val getBytes:buf length:3];
+    // TODO check code
+    int length = (buf[1] << 8) + buf[2];
+    char str[length];
+    // TODO check size again
+    [val getBytes:str range:NSMakeRange(3, length)];
+    str[length] = 0;
+    return [NSString stringWithUTF8String:str];
 }
 
 NSData * otb_enc_tuple(NSArray *items) {

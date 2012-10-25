@@ -140,6 +140,16 @@ bool compareDouble(double val1, double val2) {
     STAssertEqualObjects(otb_enc_atom(@"username"), nsdata(b2, 11), @"enc atom 'username'");
 }
 
+- (void)testDecAtom {
+    uchar b1[] = {100, 0, 4, 97, 116, 111, 109};
+    NSString *res = otb_dec_atom(nsdata(b1, 7));
+    STAssertEqualObjects(res, @"atom", @"dec atom 'atom'");
+
+    uchar b2[] = {100, 0, 8, 117, 115, 101, 114, 110, 97, 109, 101};
+    NSString *res2 = otb_dec_atom(nsdata(b2, 11));
+    STAssertEqualObjects(res2, @"username", @"dec atom 'username'");
+}
+
 - (void)testEncTuple {
     uchar b1[] = {104, 2, 97, 5, 97, 6};
     NSArray *data1 = [NSArray arrayWithObjects:otb_enc_char(5), otb_enc_char(6), nil];
