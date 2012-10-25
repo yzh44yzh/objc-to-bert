@@ -51,3 +51,11 @@ NSData * otb_enc_string(NSString *val) {
     [data appendData:[val dataUsingEncoding:NSISOLatin1StringEncoding]];
     return data;
 }
+
+NSData * otb_enc_binary(NSData *val) {
+    NSUInteger size = [val length];
+    unsigned char buf[] = {109, size >> 24, size >> 16, size >> 8, size};
+    NSMutableData *data = [NSMutableData dataWithBytes:buf length:5];
+    [data appendData:val];
+    return data;
+}

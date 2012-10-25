@@ -110,4 +110,11 @@
     STAssertEqualObjects(nsdata(b2, 9), otb_enc_string(@"Erlang"), @"enc string 'Erlang'");
 }
 
+- (void)testEncBinary {
+    uchar b[] = {109, 0, 0, 0, 3, 1, 2, 3};
+    uchar myBin [] = {1, 2, 3};
+    NSData *data = nsdata(myBin, 3);
+    STAssertEqualObjects(nsdata(b, 8), otb_enc_binary(data), @"enc binary <<1,2,3>>");
+}
+
 @end

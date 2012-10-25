@@ -13,3 +13,5 @@ NSData * otb_enc_tuple(NSArray *items);
 NSData * otb_enc_list(NSArray *items);
 
 NSData * otb_enc_string(NSString *val);
+
+NSData * otb_enc_binary(NSData *val);
