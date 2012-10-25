@@ -42,6 +42,24 @@ NSData * otb_enc_double(double val) {
     return [NSData dataWithBytes:buf length:32];
 }
 
+double otb_dec_double(NSData *val) {
+    if([val length] < 32)
+        [NSException raise:OTB_DEC_EXC
+                    format:@"Can't decode double from %@, not enought length", val];
+    unsigned char buf[32];
+    [val getBytes:buf length:32];
+    if(buf[0] != 99)
+        [NSException raise:OTB_DEC_EXC
+                    format:@"Can't decode double from %@, invalid header %d", val, buf[0]];
+
+    double res;
+    int num = sscanf(buf, "c%lf", &res);
+    if(num != 1)
+        [NSException raise:OTB_DEC_EXC
+                    format:@"Can't decode double from %@, invalid data", val];
+    return res;
+}
+
 NSData * otb_enc_atom(NSString *name) {
     NSUInteger size = [name length];
     unsigned char buf[] = {100, size >> 8, size};

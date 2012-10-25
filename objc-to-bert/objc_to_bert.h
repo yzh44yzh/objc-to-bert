@@ -12,6 +12,8 @@ int otb_dec_int(NSData *val);
 
 NSData * otb_enc_double(double val);
 
+double otb_dec_double(NSData *val);
+
 NSData * otb_enc_atom(NSString *name);
 
 NSData * otb_enc_tuple(NSArray *items);

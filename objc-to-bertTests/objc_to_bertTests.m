@@ -1,5 +1,9 @@
 #import "objc_to_bertTests.h"
 
+bool compareDouble(double val1, double val2) {
+    return fabs(val1 - val2) < 0.0000001;
+}
+
 @implementation objc_to_bertTests
 
 - (void)testEncChar {
@@ -113,6 +117,21 @@
     STAssertEqualObjects(otb_enc_double(-10.35), nsdata(bm10_35, 32), @"enc double -10.35");
 }
 
+- (void)testDecDouble {
+    uchar b0_5[] = {99, 53, 46, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48,
+            48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 101, 45, 48, 49, 0, 0, 0, 0, 0};
+    double res = otb_dec_double(nsdata(b0_5, 32));
+    STAssertTrue(compareDouble(0.5, res), @"dec double 0.5");
+
+    uchar bm10_35[] = {99, 45, 49, 46, 48, 51, 52, 57, 57, 57, 57, 57, 57,
+            57, 57, 57, 57, 57, 57, 57, 54, 52, 52, 55, 101, 43, 48, 49, 0, 0, 0, 0};
+    res = otb_dec_double(nsdata(bm10_35, 32));
+    STAssertTrue(compareDouble(-10.35, res), @"dec double -10.35");
+
+    NSData *invalidData = nsdata(bm10_35, 10);
+    STAssertThrows(otb_dec_int(invalidData), @"should be invalid size exception");
+}
+
 - (void)testEncAtom {
     uchar b1[] = {100, 0, 4, 97, 116, 111, 109};
     STAssertEqualObjects(otb_enc_atom(@"atom"), nsdata(b1, 7), @"enc atom 'atom'");
@@ -162,3 +181,4 @@
 }
 
 @end
+
