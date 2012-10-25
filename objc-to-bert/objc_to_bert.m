@@ -5,6 +5,12 @@ NSData * otb_enc_char(unsigned char val) {
     return [NSData dataWithBytes:buf length:2];
 }
 
+unsigned char otb_dec_char(NSData * val) {
+    unsigned char buf[2];
+    [val getBytes:buf length:2];
+    return buf[1];
+}
+
 NSData * otb_enc_int(int val) {
     unsigned char buf[] = {98, val >> 24, val >> 16, val >> 8, val};
     return [NSData dataWithBytes:buf length:5];
