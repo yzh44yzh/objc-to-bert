@@ -10,3 +10,6 @@ NSData * otb_enc_atom(NSString *name);
 
 NSData * otb_enc_tuple(NSArray *items);
 
+NSData * otb_enc_list(NSArray *items);
+
+NSData * otb_enc_string(NSString *val);

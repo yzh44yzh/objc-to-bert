@@ -84,8 +84,30 @@
 
     uchar b2[] = {104, 3, 100, 0, 4, 117, 115, 101, 114, 97, 3, 98, 0, 0, 1, 244};
     NSArray *data2 = [NSArray arrayWithObjects:otb_enc_atom(@"user"), otb_enc_char(3),
-            otb_enc_int(500), nil];
+                                               otb_enc_int(500), nil];
     STAssertEqualObjects(nsdata(b2, 16), otb_enc_tuple(data2), @"enc tuple {user, 3, 500}");
+}
+
+- (void)testEncList {
+    uchar b1[] = {108, 0, 0, 0, 3, 97, 1, 97, 2, 98, 0, 0, 1, 244, 106};
+    NSArray *data1 = [NSArray arrayWithObjects:otb_enc_char(1), otb_enc_char(2),
+                                               otb_enc_int(500), nil];
+    STAssertEqualObjects(nsdata(b1, 15), otb_enc_list(data1), @"enc list [1, 2, 500]");
+
+    uchar b2[] = {108, 0, 0, 0, 4, 97, 1, 97, 2, 108, 0, 0, 0, 2, 98, 0, 0, 1, 44,
+            98, 0, 0, 1, 244, 106, 97, 3, 106};
+    NSArray *inner = [NSArray arrayWithObjects:otb_enc_int(300), otb_enc_int(500), nil];
+    NSArray *data2 = [NSArray arrayWithObjects:otb_enc_char(1), otb_enc_char(2),
+                                               otb_enc_list(inner), otb_enc_char(3), nil];
+    STAssertEqualObjects(nsdata(b2, 28), otb_enc_list(data2), @"enc list [1, 2, [300, 500], 3]");
+}
+
+- (void)testEncString {
+    uchar b1[] = {107, 0, 5, 104, 101, 108, 108, 111};
+    STAssertEqualObjects(nsdata(b1, 8), otb_enc_string(@"hello"), @"enc string 'hello'");
+
+    uchar b2[] = {107, 0, 6, 69, 114, 108, 97, 110, 103};
+    STAssertEqualObjects(nsdata(b2, 9), otb_enc_string(@"Erlang"), @"enc string 'Erlang'");
 }
 
 @end

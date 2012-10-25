@@ -34,3 +34,20 @@ NSData * otb_enc_tuple(NSArray *items) {
     return data;
 }
 
+NSData * otb_enc_list(NSArray *items) {
+    NSUInteger size = [items count];
+    unsigned char buf[] = {108, size >> 24, size >> 16, size >> 8, size};
+    NSMutableData *data = [NSMutableData dataWithBytes:buf length:5];
+    for (NSData *item in items) [data appendData:item];
+    unsigned char end[] = {106};
+    [data appendData:[NSData dataWithBytes:end length:1]];
+    return data;
+}
+
+NSData * otb_enc_string(NSString *val) {
+    NSUInteger size = [val length];
+    unsigned char buf[] = {107, size >> 8, size};
+    NSMutableData *data = [NSMutableData dataWithBytes:buf length:3];
+    [data appendData:[val dataUsingEncoding:NSISOLatin1StringEncoding]];
+    return data;
+}
