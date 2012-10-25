@@ -1,0 +1,411 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F272AA9B16392EC900A751B0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F272AA9A16392EC900A751B0 /* Foundation.framework */; };
+		F272AAA016392EC900A751B0 /* objc_to_bert.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F272AA9F16392EC900A751B0 /* objc_to_bert.h */; };
+		F272AAA216392EC900A751B0 /* objc_to_bert.m in Sources */ = {isa = PBXBuildFile; fileRef = F272AAA116392EC900A751B0 /* objc_to_bert.m */; };
+		F272AAAA16392ECA00A751B0 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F272AAA916392ECA00A751B0 /* SenTestingKit.framework */; };
+		F272AAAC16392ECA00A751B0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F272AAAB16392ECA00A751B0 /* UIKit.framework */; };
+		F272AAAD16392ECA00A751B0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F272AA9A16392EC900A751B0 /* Foundation.framework */; };
+		F272AAB016392ECA00A751B0 /* libobjc-to-bert.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F272AA9716392EC900A751B0 /* libobjc-to-bert.a */; };
+		F272AAB616392ECA00A751B0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F272AAB416392ECA00A751B0 /* InfoPlist.strings */; };
+		F272AAB916392ECA00A751B0 /* objc_to_bertTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F272AAB816392ECA00A751B0 /* objc_to_bertTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F272AAAE16392ECA00A751B0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F272AA8E16392EC900A751B0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F272AA9616392EC900A751B0;
+			remoteInfo = "objc-to-bert";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F272AA9516392EC900A751B0 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+				F272AAA016392EC900A751B0 /* objc_to_bert.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F272AA9716392EC900A751B0 /* libobjc-to-bert.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libobjc-to-bert.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F272AA9A16392EC900A751B0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		F272AA9E16392EC900A751B0 /* objc-to-bert-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "objc-to-bert-Prefix.pch"; sourceTree = "<group>"; };
+		F272AA9F16392EC900A751B0 /* objc_to_bert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = objc_to_bert.h; sourceTree = "<group>"; };
+		F272AAA116392EC900A751B0 /* objc_to_bert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = objc_to_bert.m; sourceTree = "<group>"; };
+		F272AAA816392EC900A751B0 /* objc-to-bertTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "objc-to-bertTests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F272AAA916392ECA00A751B0 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		F272AAAB16392ECA00A751B0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		F272AAB316392ECA00A751B0 /* objc-to-bertTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "objc-to-bertTests-Info.plist"; sourceTree = "<group>"; };
+		F272AAB516392ECA00A751B0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F272AAB716392ECA00A751B0 /* objc_to_bertTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = objc_to_bertTests.h; sourceTree = "<group>"; };
+		F272AAB816392ECA00A751B0 /* objc_to_bertTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = objc_to_bertTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F272AA9416392EC900A751B0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F272AA9B16392EC900A751B0 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F272AAA416392EC900A751B0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F272AAAA16392ECA00A751B0 /* SenTestingKit.framework in Frameworks */,
+				F272AAAC16392ECA00A751B0 /* UIKit.framework in Frameworks */,
+				F272AAAD16392ECA00A751B0 /* Foundation.framework in Frameworks */,
+				F272AAB016392ECA00A751B0 /* libobjc-to-bert.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F272AA8C16392EC900A751B0 = {
+			isa = PBXGroup;
+			children = (
+				F272AA9C16392EC900A751B0 /* objc-to-bert */,
+				F272AAB116392ECA00A751B0 /* objc-to-bertTests */,
+				F272AA9916392EC900A751B0 /* Frameworks */,
+				F272AA9816392EC900A751B0 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F272AA9816392EC900A751B0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F272AA9716392EC900A751B0 /* libobjc-to-bert.a */,
+				F272AAA816392EC900A751B0 /* objc-to-bertTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F272AA9916392EC900A751B0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F272AA9A16392EC900A751B0 /* Foundation.framework */,
+				F272AAA916392ECA00A751B0 /* SenTestingKit.framework */,
+				F272AAAB16392ECA00A751B0 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F272AA9C16392EC900A751B0 /* objc-to-bert */ = {
+			isa = PBXGroup;
+			children = (
+				F272AA9F16392EC900A751B0 /* objc_to_bert.h */,
+				F272AAA116392EC900A751B0 /* objc_to_bert.m */,
+				F272AA9D16392EC900A751B0 /* Supporting Files */,
+			);
+			path = "objc-to-bert";
+			sourceTree = "<group>";
+		};
+		F272AA9D16392EC900A751B0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F272AA9E16392EC900A751B0 /* objc-to-bert-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F272AAB116392ECA00A751B0 /* objc-to-bertTests */ = {
+			isa = PBXGroup;
+			children = (
+				F272AAB716392ECA00A751B0 /* objc_to_bertTests.h */,
+				F272AAB816392ECA00A751B0 /* objc_to_bertTests.m */,
+				F272AAB216392ECA00A751B0 /* Supporting Files */,
+			);
+			path = "objc-to-bertTests";
+			sourceTree = "<group>";
+		};
+		F272AAB216392ECA00A751B0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F272AAB316392ECA00A751B0 /* objc-to-bertTests-Info.plist */,
+				F272AAB416392ECA00A751B0 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F272AA9616392EC900A751B0 /* objc-to-bert */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F272AABC16392ECA00A751B0 /* Build configuration list for PBXNativeTarget "objc-to-bert" */;
+			buildPhases = (
+				F272AA9316392EC900A751B0 /* Sources */,
+				F272AA9416392EC900A751B0 /* Frameworks */,
+				F272AA9516392EC900A751B0 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "objc-to-bert";
+			productName = "objc-to-bert";
+			productReference = F272AA9716392EC900A751B0 /* libobjc-to-bert.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		F272AAA716392EC900A751B0 /* objc-to-bertTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F272AABF16392ECA00A751B0 /* Build configuration list for PBXNativeTarget "objc-to-bertTests" */;
+			buildPhases = (
+				F272AAA316392EC900A751B0 /* Sources */,
+				F272AAA416392EC900A751B0 /* Frameworks */,
+				F272AAA516392EC900A751B0 /* Resources */,
+				F272AAA616392EC900A751B0 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F272AAAF16392ECA00A751B0 /* PBXTargetDependency */,
+			);
+			name = "objc-to-bertTests";
+			productName = "objc-to-bertTests";
+			productReference = F272AAA816392EC900A751B0 /* objc-to-bertTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F272AA8E16392EC900A751B0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0440;
+				ORGANIZATIONNAME = "Yura Zhloba";
+			};
+			buildConfigurationList = F272AA9116392EC900A751B0 /* Build configuration list for PBXProject "objc-to-bert" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F272AA8C16392EC900A751B0;
+			productRefGroup = F272AA9816392EC900A751B0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F272AA9616392EC900A751B0 /* objc-to-bert */,
+				F272AAA716392EC900A751B0 /* objc-to-bertTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F272AAA516392EC900A751B0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F272AAB616392ECA00A751B0 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F272AAA616392EC900A751B0 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F272AA9316392EC900A751B0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F272AAA216392EC900A751B0 /* objc_to_bert.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F272AAA316392EC900A751B0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F272AAB916392ECA00A751B0 /* objc_to_bertTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F272AAAF16392ECA00A751B0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F272AA9616392EC900A751B0 /* objc-to-bert */;
+			targetProxy = F272AAAE16392ECA00A751B0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		F272AAB416392ECA00A751B0 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F272AAB516392ECA00A751B0 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F272AABA16392ECA00A751B0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		F272AABB16392ECA00A751B0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F272AABD16392ECA00A751B0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/objc_to_bert.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "objc-to-bert/objc-to-bert-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		F272AABE16392ECA00A751B0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/objc_to_bert.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "objc-to-bert/objc-to-bert-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		F272AAC016392ECA00A751B0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "objc-to-bert/objc-to-bert-Prefix.pch";
+				INFOPLIST_FILE = "objc-to-bertTests/objc-to-bertTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		F272AAC116392ECA00A751B0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "objc-to-bert/objc-to-bert-Prefix.pch";
+				INFOPLIST_FILE = "objc-to-bertTests/objc-to-bertTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F272AA9116392EC900A751B0 /* Build configuration list for PBXProject "objc-to-bert" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F272AABA16392ECA00A751B0 /* Debug */,
+				F272AABB16392ECA00A751B0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F272AABC16392ECA00A751B0 /* Build configuration list for PBXNativeTarget "objc-to-bert" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F272AABD16392ECA00A751B0 /* Debug */,
+				F272AABE16392ECA00A751B0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		F272AABF16392ECA00A751B0 /* Build configuration list for PBXNativeTarget "objc-to-bertTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F272AAC016392ECA00A751B0 /* Debug */,
+				F272AAC116392ECA00A751B0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F272AA8E16392EC900A751B0 /* Project object */;
+}
