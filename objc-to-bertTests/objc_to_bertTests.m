@@ -69,4 +69,12 @@
     STAssertEqualObjects(nsdata(bm10_35, 32), otb_enc_double(-10.35), @"enc double -10.35");
 }
 
+- (void)testEncAtom {
+    uchar b1[] = {100, 0, 4, 97, 116, 111, 109};
+    STAssertEqualObjects(nsdata(b1, 7), otb_enc_atom(@"atom"), @"enc atom 'atom'");
+
+    uchar b2[] = {100, 0, 8, 117, 115, 101, 114, 110, 97, 109, 101};
+    STAssertEqualObjects(nsdata(b2, 11), otb_enc_atom(@"username"), @"enc atom 'username'");
+}
+
 @end

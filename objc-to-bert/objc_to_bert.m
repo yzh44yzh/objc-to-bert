@@ -17,3 +17,11 @@ NSData * otb_enc_double(double val) {
     sprintf(buf + 1, "%.20e", val);
     return [NSData dataWithBytes:buf length:32];
 }
+
+NSData * otb_enc_atom(NSString *name) {
+    NSUInteger size = [name length];
+    unsigned char buf[] = {100, size >> 8, size};
+    NSMutableData *data = [NSMutableData dataWithBytes:buf length:3];
+    [data appendData:[name dataUsingEncoding:NSUTF8StringEncoding]];
+    return data;
+}
