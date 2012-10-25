@@ -25,3 +25,12 @@ NSData * otb_enc_atom(NSString *name) {
     [data appendData:[name dataUsingEncoding:NSUTF8StringEncoding]];
     return data;
 }
+
+NSData * otb_enc_tuple(NSArray *items) {
+    NSUInteger size = [items count];
+    unsigned char buf[] = {104, size};
+    NSMutableData *data = [NSMutableData dataWithBytes:buf length:2];
+    for (NSData *item in items) [data appendData:item];
+    return data;
+}
+

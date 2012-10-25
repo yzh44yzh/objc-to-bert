@@ -77,4 +77,15 @@
     STAssertEqualObjects(nsdata(b2, 11), otb_enc_atom(@"username"), @"enc atom 'username'");
 }
 
+- (void)testEncTuple {
+    uchar b1[] = {104, 2, 97, 5, 97, 6};
+    NSArray *data1 = [NSArray arrayWithObjects:otb_enc_char(5), otb_enc_char(6), nil];
+    STAssertEqualObjects(nsdata(b1, 6), otb_enc_tuple(data1), @"enc tuple {5, 6}");
+
+    uchar b2[] = {104, 3, 100, 0, 4, 117, 115, 101, 114, 97, 3, 98, 0, 0, 1, 244};
+    NSArray *data2 = [NSArray arrayWithObjects:otb_enc_atom(@"user"), otb_enc_char(3),
+            otb_enc_int(500), nil];
+    STAssertEqualObjects(nsdata(b2, 16), otb_enc_tuple(data2), @"enc tuple {user, 3, 500}");
+}
+
 @end
