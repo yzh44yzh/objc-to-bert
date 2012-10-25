@@ -43,7 +43,30 @@
     STAssertEqualObjects(nsdata(b2147483647, 5), otb_enc_int(2147483647), @"enc int 2^31-1");
 
     uchar bm1[] = {98, 255, 255, 255, 255};
-    STAssertEqualObjects(nsdata(bm1, 5), otb_enc_int(-1), @"encording int -1");
+    STAssertEqualObjects(nsdata(bm1, 5), otb_enc_int(-1), @"enc int -1");
+
+    uchar bm100[] = {98, 255, 255, 255, 156};
+    STAssertEqualObjects(nsdata(bm100, 5), otb_enc_int(-100), @"enc int -100");
+
+    uchar bm1024[] = {98, 255, 255, 252, 0};
+    STAssertEqualObjects(nsdata(bm1024, 5), otb_enc_int(-1024), @"enc int -1024");
+
+    uchar bm2147483648[] = {98, 128, 0, 0, 0};
+    STAssertEqualObjects(nsdata(bm2147483648, 5), otb_enc_int(-2147483648), @"enc int -2^31");
+}
+
+- (void)testEncDouble {
+    uchar b0_5[] = {99, 53, 46, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48,
+            48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 101, 45, 48, 49, 0, 0, 0, 0, 0};
+    STAssertEqualObjects(nsdata(b0_5, 32), otb_enc_double(0.5), @"enc double 0.5");
+
+    uchar b5_55[] = {99, 53, 46, 53, 52, 57, 57, 57, 57, 57, 57, 57, 57,
+            57, 57, 57, 57, 57, 56, 50, 50, 51, 54, 101, 43, 48, 48, 0, 0, 0, 0, 0};
+    STAssertEqualObjects(nsdata(b5_55, 32), otb_enc_double(5.55), @"enc double 5.55");
+
+    uchar bm10_35[] = {99, 45, 49, 46, 48, 51, 52, 57, 57, 57, 57, 57, 57,
+            57, 57, 57, 57, 57, 57, 57, 54, 52, 52, 55, 101, 43, 48, 49, 0, 0, 0, 0};
+    STAssertEqualObjects(nsdata(bm10_35, 32), otb_enc_double(-10.35), @"enc double -10.35");
 }
 
 @end
