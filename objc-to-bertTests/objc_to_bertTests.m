@@ -210,8 +210,21 @@ bool compareDouble(double val1, double val2) {
             [NSNumber numberWithChar:5],
             [NSNumber numberWithChar:6],
             [NSNumber numberWithInt:500],
+            [NSNumber numberWithInt:(11 - 2)], // extracted data lenght: 11 - tuple header
             nil];
     STAssertEqualObjects(otb_dec_tuple(data1), res1, @"dec tuple {5, 6, 500}");
+
+    uchar b2[] = {104, 2, 99, 53, 46, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48,
+            48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 101, 45, 48, 49, 0, 0, 0, 0, 0, 97, 10};
+    NSData *data2 = nsdata(b2, 36);
+    NSArray *res2 = [NSArray arrayWithObjects:
+            [NSNumber numberWithDouble:0.5],
+            [NSNumber numberWithChar:10],
+            [NSNumber numberWithChar:(36 - 2)],
+            nil];
+    STAssertEqualObjects(otb_dec_tuple(data2), res2, @"dec tuple {0.5, 10}");
+
+
 }
 
 - (void)testEncList {

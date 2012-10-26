@@ -175,32 +175,91 @@ NSData * otb_enc_list(NSArray *items) {
     return data;
 }
 
+NSArray * otb_dec_list(NSData *val) {
+    if([val length] < 5)
+        [NSException raise:OTB_DEC_EXC
+                    format:@"Can't decode list from %@, not enought length", val];
+    char buf[5];
+    [val getBytes:buf length:5];
+    if(buf[0] != 108)
+        [NSException raise:OTB_DEC_EXC
+                    format:@"Can't decode list from %@, invalid header %d", val, buf[0]];
+
+    int length = (buf[1] << 24) + (buf[2] << 16) + (buf[3] << 8) + buf[4];
+    if([val length] < (5 + length))
+        [NSException raise:OTB_DEC_EXC
+                    format:@"Can't decode list from %@, not enought length", val];
+    NSRange range = NSMakeRange(5, [val length] - 5);
+    return otb_get_items([val subdataWithRange:range], (NSUInteger) length);
+}
+
 NSArray * otb_get_items(NSData *val, NSUInteger length) {
     NSLog(@"get items from %@, data len:%d, num items:%d", val, [val length], length);
     NSUInteger position = 0;
     NSMutableArray *res = [NSMutableArray array];
+
     for (int i = 0; i < length; i++) {
         char header[1];
         NSData *subData;
         [val getBytes:header range:NSMakeRange(position, 1)];
+
         NSLog(@"item %d, position %d, header %d", i, position, header[0]);
         switch(header[0]) {
-            case 97:
+            case 97: {
                 subData = [val subdataWithRange:NSMakeRange(position, 2)];
                 [res addObject:[NSNumber numberWithChar:otb_dec_char(subData)]];
                 position += 2;
-                break;
-            case 98:
+            } break;
+            case 98: {
                 subData = [val subdataWithRange:NSMakeRange(position, 5)];
                 [res addObject:[NSNumber numberWithInt:otb_dec_int(subData)]];
                 position += 5;
-                break;
-                // TODO read all other types
-            default:
+            } break;
+            case 99: {
+                subData = [val subdataWithRange:NSMakeRange(position, 32)];
+                [res addObject:[NSNumber numberWithDouble:otb_dec_double(subData)]];
+                position += 32;
+            } break;
+            case 100: {
+                subData = [val subdataWithRange:NSMakeRange(position, [val length] - position)];
+                NSString *atom = otb_dec_atom(subData);
+                [res addObject:atom];
+                position += 3 + atom.length;
+            } break;
+            case 107: {
+                subData = [val subdataWithRange:NSMakeRange(position, [val length] - position)];
+                NSString *str = otb_dec_string(subData);
+                [res addObject:str];
+                position += 3 + str.length;
+            } break;
+            case 109: {
+                subData = [val subdataWithRange:NSMakeRange(position, [val length] - position)];
+                NSData *bin = otb_dec_binary(subData);
+                [res addObject:bin];
+                position += 5 + bin.length;
+            } break;
+            case 104: {
+                subData = [val subdataWithRange:NSMakeRange(position, [val length] - position)];
+                NSArray *tuple = otb_dec_tuple(subData);
+                [res addObject:tuple];
+                NSNumber *ejectedDataLength = [tuple objectAtIndex:tuple.count - 1];
+                position += 2 + ejectedDataLength.longValue;
+            } break;
+            case 108: {
+                subData = [val subdataWithRange:NSMakeRange(position, [val length] - position)];
+                NSArray *list = otb_dec_list(subData);
+                [res addObject:list];
+                NSNumber *ejectedDataLength = [list objectAtIndex:list.count - 1];
+                position += 5 + ejectedDataLength.longValue;
+            } break;
+            default: {
                 [NSException raise:OTB_DEC_EXC
                             format:@"unknown item %d in data %@", header[0], val];
+            }
         }
     }
+    // NOTE: kind of hack, I put the length of ejected data to res array
+    [res addObject:[NSNumber numberWithInt:position]];
     return res;
 }
 
