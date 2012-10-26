@@ -124,6 +124,24 @@ NSData * otb_enc_binary(NSData *val) {
     return data;
 }
 
+NSData * otb_dec_binary(NSData *val){
+    if([val length] < 5)
+        [NSException raise:OTB_DEC_EXC
+                    format:@"Can't decode binary from %@, not enought length", val];
+    char buf[5];
+    [val getBytes:buf length:5];
+    if(buf[0] != 109)
+        [NSException raise:OTB_DEC_EXC
+                    format:@"Can't decode binary from %@, invalid header %d", val, buf[0]];
+
+    int length = (buf[1] << 24) + (buf[2] << 16) + (buf[3] << 8) + buf[4];
+    if([val length] < (5 + length))
+        [NSException raise:OTB_DEC_EXC
+                    format:@"Can't decode binary from %@, not enought length", val];
+    NSRange range = NSMakeRange(5, (NSUInteger) length);
+    return [val subdataWithRange:range];
+}
+
 NSData * otb_enc_tuple(NSArray *items) {
     NSUInteger size = [items count];
     unsigned char buf[] = {104, size};

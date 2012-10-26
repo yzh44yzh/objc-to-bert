@@ -181,6 +181,17 @@ bool compareDouble(double val1, double val2) {
     STAssertEqualObjects(otb_enc_binary(data), nsdata(b, 8), @"enc binary <<1,2,3>>");
 }
 
+- (void)testDecBinary {
+    uchar b[] = {109, 0, 0, 0, 4, 1, 2, 3, 4};
+    uchar r [] = {1, 2, 3, 4};
+    NSData *data = nsdata(b, 9);
+    NSData *res = nsdata(r, 4);
+    STAssertEqualObjects(otb_dec_binary(data), res, @"dec binary <<1,2,3,4>>");
+
+    NSData *invalidData = nsdata(b, 6);
+    STAssertThrows(otb_dec_binary(invalidData), @"should be invalid size exception");
+}
+
 - (void)testEncTuple {
     uchar b1[] = {104, 2, 97, 5, 97, 6};
     NSArray *data1 = [NSArray arrayWithObjects:otb_enc_char(5), otb_enc_char(6), nil];
