@@ -14,10 +14,14 @@
 
 + (Sample *)createWithData:(NSData *)data;
 
++ (Sample *)createWithDecodedData:(DecodedData *)data;
+
 + (Sample *)createWithId:(long)id andName:(NSString *)name andAge:(char)age;
 
 - (NSData *)encode;
 
 - (void)decode:(NSData *)data;
+
+- (void)initWithDecodedData:(DecodedData *)data;
 
 @end

@@ -13,6 +13,12 @@
     return item;
 }
 
++ (Sample *)createWithDecodedData:(DecodedData *)data {
+    Sample *item = [[Sample alloc] init];
+    if(item) [item initWithDecodedData:data];
+    return item;
+}
+
 + (Sample *)createWithId:(long)id andName:(NSString *)name andAge:(char)age {
     Sample *item = [[Sample alloc] init];
     if(item) {
@@ -33,11 +39,14 @@
 }
 
 - (void)decode:(NSData *)data {
-    NSArray *props = otb_dec_tuple(data);
-    if([@"sample" isEqualToString:[props objectAtIndex:0]]) {
-        self.id = [[props objectAtIndex:1] longValue];
-        self.name = [props objectAtIndex:2];
-        self.age = [[props objectAtIndex:3] charValue];
+    [self initWithDecodedData:otb_dec_tuple(data)];
+}
+
+- (void)initWithDecodedData:(DecodedData *)data {
+    if([@"sample" isEqualToString:[data objectAtIndex:0]]) {
+        self.id = [[data objectAtIndex:1] longValue];
+        self.name = [data objectAtIndex:2];
+        self.age = [[data objectAtIndex:3] charValue];
     }
     else [NSException raise:@"SampleDecodeException"
                      format:@"Can't decode Sample from %@, invalid data", data];
@@ -55,6 +64,5 @@
     }
     return false;
 }
-
 
 @end

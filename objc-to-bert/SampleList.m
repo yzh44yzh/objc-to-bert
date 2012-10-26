@@ -30,18 +30,11 @@
 
 - (void)decode:(NSData *)data {
     NSArray *props = otb_dec_tuple(data);
-    // TODO need non-recursive decode of lists and tuples,
-    // which left there elements as NSData
-    // so I can choose when and where decode it father
     if([@"sample_list" isEqualToString:[props objectAtIndex:0]]) {
         [items removeAllObjects];
         NSArray *tmp = [props objectAtIndex:1];
         for (int i = 0; i < tmp.count - 1; i++) { // skip last element
-            NSArray *itemData = [tmp objectAtIndex:i];
-            long id = [[itemData objectAtIndex:1] longValue];
-            NSString *name = [itemData objectAtIndex:2];
-            char age = [[itemData objectAtIndex:3] charValue];
-            [items addObject:[Sample createWithId:id andName:name andAge:age]];
+            [items addObject:[Sample createWithDecodedData:[tmp objectAtIndex:i]]];
         }
     }
     else [NSException raise:@"SampleListDecodeException"
