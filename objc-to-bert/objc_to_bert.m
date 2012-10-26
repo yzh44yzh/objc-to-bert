@@ -1,5 +1,7 @@
 #import "objc_to_bert.h"
 
+NSArray * otb_get_items(NSData *val, NSUInteger length);
+
 NSData * otb_enc_char(unsigned char val) {
     unsigned char buf[] = {97, val};
     return [NSData dataWithBytes:buf length:2];
@@ -86,24 +88,6 @@ NSString * otb_dec_atom(NSData *val){
     return [NSString stringWithUTF8String:str];
 }
 
-NSData * otb_enc_tuple(NSArray *items) {
-    NSUInteger size = [items count];
-    unsigned char buf[] = {104, size};
-    NSMutableData *data = [NSMutableData dataWithBytes:buf length:2];
-    for (NSData *item in items) [data appendData:item];
-    return data;
-}
-
-NSData * otb_enc_list(NSArray *items) {
-    NSUInteger size = [items count];
-    unsigned char buf[] = {108, size >> 24, size >> 16, size >> 8, size};
-    NSMutableData *data = [NSMutableData dataWithBytes:buf length:5];
-    for (NSData *item in items) [data appendData:item];
-    unsigned char end[] = {106};
-    [data appendData:[NSData dataWithBytes:end length:1]];
-    return data;
-}
-
 NSData * otb_enc_string(NSString *val) {
     NSUInteger size = [val length];
     unsigned char buf[] = {107, size >> 8, size};
@@ -119,3 +103,67 @@ NSData * otb_enc_binary(NSData *val) {
     [data appendData:val];
     return data;
 }
+
+NSData * otb_enc_tuple(NSArray *items) {
+    NSUInteger size = [items count];
+    unsigned char buf[] = {104, size};
+    NSMutableData *data = [NSMutableData dataWithBytes:buf length:2];
+    for (NSData *item in items) [data appendData:item];
+    return data;
+}
+
+NSArray * otb_dec_tuple(NSData *val) {
+    NSLog(@"dec tuple %@ %d", val, [val length]);
+    if([val length] < 2)
+        [NSException raise:OTB_DEC_EXC
+                    format:@"Can't decode tuple from %@, not enought length", val];
+    char buf[2];
+    [val getBytes:buf length:2];
+    if(buf[0] != 104)
+        [NSException raise:OTB_DEC_EXC
+                    format:@"Can't decode tuple from %@, invalid header %d", val, buf[0]];
+
+    NSUInteger length = (NSUInteger) buf[1];
+    NSRange range = NSMakeRange(2, [val length] - 2);
+    return otb_get_items([val subdataWithRange:range], length);
+}
+
+NSData * otb_enc_list(NSArray *items) {
+    NSUInteger size = [items count];
+    unsigned char buf[] = {108, size >> 24, size >> 16, size >> 8, size};
+    NSMutableData *data = [NSMutableData dataWithBytes:buf length:5];
+    for (NSData *item in items) [data appendData:item];
+    unsigned char end[] = {106};
+    [data appendData:[NSData dataWithBytes:end length:1]];
+    return data;
+}
+
+NSArray * otb_get_items(NSData *val, NSUInteger length) {
+    NSLog(@"get items from %@, data len:%d, num items:%d", val, [val length], length);
+    NSUInteger position = 0;
+    NSMutableArray *res = [NSMutableArray array];
+    for (int i = 0; i < length; i++) {
+        char header[1];
+        NSData *subData;
+        [val getBytes:header range:NSMakeRange(position, 1)];
+        NSLog(@"item %d, position %d, header %d", i, position, header[0]);
+        switch(header[0]) {
+            case 97:
+                subData = [val subdataWithRange:NSMakeRange(position, 2)];
+                [res addObject:[NSNumber numberWithChar:otb_dec_char(subData)]];
+                position += 2;
+                break;
+            case 98:
+                subData = [val subdataWithRange:NSMakeRange(position, 5)];
+                [res addObject:[NSNumber numberWithInt:otb_dec_int(subData)]];
+                position += 5;
+                break;
+                // TODO read all other types
+            default:
+                [NSException raise:OTB_DEC_EXC
+                            format:@"unknown item %d in data %@", header[0], val];
+        }
+    }
+    return res;
+}
+

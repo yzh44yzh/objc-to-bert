@@ -153,6 +153,21 @@ bool compareDouble(double val1, double val2) {
     STAssertThrows(otb_dec_atom(invalidData), @"should be invalid size exception");
 }
 
+- (void)testEncString {
+    uchar b1[] = {107, 0, 5, 104, 101, 108, 108, 111};
+    STAssertEqualObjects(otb_enc_string(@"hello"), nsdata(b1, 8), @"enc string 'hello'");
+
+    uchar b2[] = {107, 0, 6, 69, 114, 108, 97, 110, 103};
+    STAssertEqualObjects(otb_enc_string(@"Erlang"), nsdata(b2, 9), @"enc string 'Erlang'");
+}
+
+- (void)testEncBinary {
+    uchar b[] = {109, 0, 0, 0, 3, 1, 2, 3};
+    uchar myBin [] = {1, 2, 3};
+    NSData *data = nsdata(myBin, 3);
+    STAssertEqualObjects(otb_enc_binary(data), nsdata(b, 8), @"enc binary <<1,2,3>>");
+}
+
 - (void)testEncTuple {
     uchar b1[] = {104, 2, 97, 5, 97, 6};
     NSArray *data1 = [NSArray arrayWithObjects:otb_enc_char(5), otb_enc_char(6), nil];
@@ -162,6 +177,17 @@ bool compareDouble(double val1, double val2) {
     NSArray *data2 = [NSArray arrayWithObjects:otb_enc_atom(@"user"), otb_enc_char(3),
                                                otb_enc_int(500), nil];
     STAssertEqualObjects(otb_enc_tuple(data2), nsdata(b2, 16), @"enc tuple {user, 3, 500}");
+}
+
+- (void)testDecTuple {
+    uchar b1[] = {104, 3, 97, 5, 97, 6, 98, 0, 0, 1, 244};
+    NSData *data1 = nsdata(b1, 11);
+    NSArray *res1 = [NSArray arrayWithObjects:
+            [NSNumber numberWithChar:5],
+            [NSNumber numberWithChar:6],
+            [NSNumber numberWithInt:500],
+            nil];
+    STAssertEqualObjects(otb_dec_tuple(data1), res1, @"dec tuple {5, 6, 500}");
 }
 
 - (void)testEncList {
@@ -176,21 +202,6 @@ bool compareDouble(double val1, double val2) {
     NSArray *data2 = [NSArray arrayWithObjects:otb_enc_char(1), otb_enc_char(2),
                                                otb_enc_list(inner), otb_enc_char(3), nil];
     STAssertEqualObjects(otb_enc_list(data2), nsdata(b2, 28), @"enc list [1, 2, [300, 500], 3]");
-}
-
-- (void)testEncString {
-    uchar b1[] = {107, 0, 5, 104, 101, 108, 108, 111};
-    STAssertEqualObjects(otb_enc_string(@"hello"), nsdata(b1, 8), @"enc string 'hello'");
-
-    uchar b2[] = {107, 0, 6, 69, 114, 108, 97, 110, 103};
-    STAssertEqualObjects(otb_enc_string(@"Erlang"), nsdata(b2, 9), @"enc string 'Erlang'");
-}
-
-- (void)testEncBinary {
-    uchar b[] = {109, 0, 0, 0, 3, 1, 2, 3};
-    uchar myBin [] = {1, 2, 3};
-    NSData *data = nsdata(myBin, 3);
-    STAssertEqualObjects(otb_enc_binary(data), nsdata(b, 8), @"enc binary <<1,2,3>>");
 }
 
 @end
