@@ -1,6 +1,6 @@
 #import "objc_to_bert.h"
 
-NSArray * otb_get_items(NSData *val, NSUInteger length);
+DecodedData * otb_get_items(NSData *val, NSUInteger length);
 
 NSData * otb_enc_char(unsigned char val) {
     unsigned char buf[] = {97, val};
@@ -150,7 +150,7 @@ NSData * otb_enc_tuple(NSArray *items) {
     return data;
 }
 
-NSArray * otb_dec_tuple(NSData *val) {
+DecodedData * otb_dec_tuple(NSData *val) {
     if([val length] < 2)
         [NSException raise:OTB_DEC_EXC
                     format:@"Can't decode tuple from %@, not enought length", val];
@@ -175,7 +175,7 @@ NSData * otb_enc_list(NSArray *items) {
     return data;
 }
 
-NSArray * otb_dec_list(NSData *val) {
+DecodedData * otb_dec_list(NSData *val) {
     if([val length] < 5)
         [NSException raise:OTB_DEC_EXC
                     format:@"Can't decode list from %@, not enought length", val];
@@ -193,7 +193,7 @@ NSArray * otb_dec_list(NSData *val) {
     return otb_get_items([val subdataWithRange:range], (NSUInteger) length);
 }
 
-NSArray * otb_get_items(NSData *val, NSUInteger length) {
+DecodedData * otb_get_items(NSData *val, NSUInteger length) {
     NSUInteger position = 0;
     NSMutableArray *res = [NSMutableArray array];
 
@@ -238,14 +238,14 @@ NSArray * otb_get_items(NSData *val, NSUInteger length) {
             } break;
             case 104: {
                 subData = [val subdataWithRange:NSMakeRange(position, [val length] - position)];
-                NSArray *tuple = otb_dec_tuple(subData);
+                DecodedData *tuple = otb_dec_tuple(subData);
                 [res addObject:tuple];
                 NSNumber *ejectedDataLength = [tuple objectAtIndex:tuple.count - 1];
                 position += 2 + ejectedDataLength.longValue;
             } break;
             case 108: {
                 subData = [val subdataWithRange:NSMakeRange(position, [val length] - position)];
-                NSArray *list = otb_dec_list(subData);
+                DecodedData *list = otb_dec_list(subData);
                 [res addObject:list];
                 NSNumber *ejectedDataLength = [list objectAtIndex:list.count - 1];
                 position += 5 + ejectedDataLength.longValue + 1; // plus 106 (empty list) byte

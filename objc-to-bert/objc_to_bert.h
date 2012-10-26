@@ -2,6 +2,8 @@
 
 #define OTB_DEC_EXC @"otb_decode_exception"
 
+#define DecodedData NSArray
+
 NSData * otb_enc_char(unsigned char val);
 
 unsigned char otb_dec_char(NSData *val);
@@ -28,8 +30,8 @@ NSData * otb_dec_binary(NSData *val);
 
 NSData * otb_enc_tuple(NSArray *items);
 
-NSArray * otb_dec_tuple(NSData *val);
+DecodedData * otb_dec_tuple(NSData *val);
 
 NSData * otb_enc_list(NSArray *items);
 
-NSArray * otb_dec_list(NSData *val);
+DecodedData * otb_dec_list(NSData *val);

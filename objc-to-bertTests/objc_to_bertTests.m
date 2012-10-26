@@ -206,7 +206,7 @@ bool compareDouble(double val1, double val2) {
 - (void)testDecTuple {
     uchar b1[] = {104, 3, 97, 5, 97, 6, 98, 0, 0, 1, 244};
     NSData *data1 = nsdata(b1, 11);
-    NSArray *res1 = [NSArray arrayWithObjects:
+    DecodedData *res1 = [NSArray arrayWithObjects:
             [NSNumber numberWithChar:5],
             [NSNumber numberWithChar:6],
             [NSNumber numberWithLong:500],
@@ -217,7 +217,7 @@ bool compareDouble(double val1, double val2) {
     uchar b2[] = {104, 2, 99, 53, 46, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48,
             48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 101, 45, 48, 49, 0, 0, 0, 0, 0, 97, 10};
     NSData *data2 = nsdata(b2, 36);
-    NSArray *res2 = [NSArray arrayWithObjects:
+    DecodedData *res2 = [NSArray arrayWithObjects:
             [NSNumber numberWithDouble:0.5],
             [NSNumber numberWithChar:10],
             [NSNumber numberWithChar:(36 - 2)],
@@ -231,7 +231,7 @@ bool compareDouble(double val1, double val2) {
             97, 10}; // char 10
     uchar bin[] = {1, 2, 3};
     NSData *data3 = nsdata(b3, 27);
-    NSArray *res3 = [NSArray arrayWithObjects:
+    DecodedData *res3 = [NSArray arrayWithObjects:
             @"atom", @"hello", nsdata(bin, 3),
             [NSNumber numberWithChar:10],
             [NSNumber numberWithLong:(27 - 2)],
@@ -240,7 +240,7 @@ bool compareDouble(double val1, double val2) {
 
     uchar b4[] = {104, 2, 104, 3, 97, 5, 97, 6, 98, 0, 0, 1, 244, 97, 10};
     NSData *data4 = nsdata(b4, 15);
-    NSArray *res4 = [NSArray arrayWithObjects:
+    DecodedData *res4 = [NSArray arrayWithObjects:
             res1,
             [NSNumber numberWithChar:10],
             [NSNumber numberWithLong:(15 - 2)],
@@ -249,7 +249,7 @@ bool compareDouble(double val1, double val2) {
 
     uchar b5[] = {104, 3, 108, 0, 0, 0, 3, 97, 1, 97, 2, 98, 0, 0, 1, 244, 106, 97, 10, 97, 20};
     NSData *data5 = nsdata(b5, 21);
-    NSArray *res5 = [NSArray arrayWithObjects:
+    DecodedData *res5 = [NSArray arrayWithObjects:
             [NSArray arrayWithObjects:
                     [NSNumber numberWithChar:1],
                     [NSNumber numberWithChar:2],
@@ -280,7 +280,7 @@ bool compareDouble(double val1, double val2) {
 - (void)testDecList {
     uchar b1[] = {108, 0, 0, 0, 3, 97, 5, 97, 6, 98, 0, 0, 1, 244};
     NSData *data1 = nsdata(b1, 14);
-    NSArray *res1 = [NSArray arrayWithObjects:
+    DecodedData *res1 = [NSArray arrayWithObjects:
             [NSNumber numberWithChar:5],
             [NSNumber numberWithChar:6],
             [NSNumber numberWithLong:500],
@@ -298,7 +298,7 @@ bool compareDouble(double val1, double val2) {
             106};
     uchar bin[] = {1, 2, 3};
     NSData *data2 = nsdata(b2, 62);
-    NSArray *res2 = [NSArray arrayWithObjects:
+    DecodedData *res2 = [NSArray arrayWithObjects:
             @"atom",
             @"hello",
             nsdata(bin, 3),
