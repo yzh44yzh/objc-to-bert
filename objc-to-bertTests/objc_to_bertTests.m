@@ -329,15 +329,28 @@ bool compareDouble(double val1, double val2) {
     Sample *item1 = [Sample createWithId:2222 andName:@"Bob" andAge:25];
     NSData *data = [item1 encode];
     Sample *item2 = [Sample createWithData:data];
-    STAssertTrue(item1.id == item2.id, @"ids should be equal");
-    STAssertEqualObjects(item1.name, item2.name, @"names should be equal");
-    STAssertTrue(item1.age == item2.age, @"ages should be equal");
+    STAssertEqualObjects(item1, item2, @"items 1 and 2 should be equal");
 
     Sample *item3 = [[Sample alloc] init];
     [item3 decode:data];
-    STAssertTrue(item1.id == item3.id, @"ids should be equal");
-    STAssertEqualObjects(item1.name, item3.name, @"names should be equal");
-    STAssertTrue(item1.age == item3.age, @"ages should be equal");
+    STAssertEqualObjects(item1, item3, @"items 1 and 3 should be equal");
+    STAssertEqualObjects(item2, item3, @"items 2 and 3 should be equal");
+}
+
+- (void)testSampleList {
+    Sample *item1 = [Sample createWithId:1 andName:@"Bob" andAge:25];
+    Sample *item2 = [Sample createWithId:2 andName:@"Bill" andAge:24];
+    Sample *item3 = [Sample createWithId:3 andName:@"Helen" andAge:23];
+
+    SampleList *list1 = [[SampleList alloc] init];
+    [list1 addItem:item1];
+    [list1 addItem:item2];
+    [list1 addItem:item3];
+    NSData *data = [list1 encode];
+
+    SampleList *list2 = [[SampleList alloc] init];
+    [list2 decode:data];
+    STAssertEqualObjects(list1, list2, @"lists should be equal");
 }
 
 @end

@@ -43,6 +43,18 @@
                      format:@"Can't decode Sample from %@, invalid data", data];
 }
 
+- (BOOL)isEqual:(id)object {
+    if(object == nil) return false;
+    if(object == self) return true;
+    if([object isKindOfClass:[self class]]) {
+        Sample *other = (Sample *) object;
+        if(other.id != self.id) return false;
+        if(![other.name isEqualToString:self.name]) return false;
+        if(other.age != self.age) return false;
+        return true;
+    }
+    return false;
+}
 
 
 @end
