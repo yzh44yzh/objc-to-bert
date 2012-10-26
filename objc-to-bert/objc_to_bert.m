@@ -194,7 +194,6 @@ NSArray * otb_dec_list(NSData *val) {
 }
 
 NSArray * otb_get_items(NSData *val, NSUInteger length) {
-    NSLog(@"get items from %@, data len:%d, num items:%d", val, [val length], length);
     NSUInteger position = 0;
     NSMutableArray *res = [NSMutableArray array];
 
@@ -203,7 +202,6 @@ NSArray * otb_get_items(NSData *val, NSUInteger length) {
         NSData *subData;
         [val getBytes:header range:NSMakeRange(position, 1)];
 
-        NSLog(@"item %d, position %d, header %d", i, position, header[0]);
         switch(header[0]) {
             case 97: {
                 subData = [val subdataWithRange:NSMakeRange(position, 2)];

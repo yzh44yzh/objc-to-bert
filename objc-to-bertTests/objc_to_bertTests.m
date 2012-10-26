@@ -278,10 +278,51 @@ bool compareDouble(double val1, double val2) {
 }
 
 - (void)testDecList {
-    // char, int, float
-    // atom, string, binary
-    // inner list
-    // inner tuple
+    uchar b1[] = {108, 0, 0, 0, 3, 97, 5, 97, 6, 98, 0, 0, 1, 244};
+    NSData *data1 = nsdata(b1, 14);
+    NSArray *res1 = [NSArray arrayWithObjects:
+            [NSNumber numberWithChar:5],
+            [NSNumber numberWithChar:6],
+            [NSNumber numberWithInt:500],
+            [NSNumber numberWithInt:(14 - 5)], // extracted data length: 14 - list header
+            nil];
+    STAssertEqualObjects(otb_dec_list(data1), res1, @"dec list [5, 6, 500]");
+
+    uchar b2[] = {108, 0, 0, 0, 6,
+            100, 0, 4, 97, 116, 111, 109, // atom 'atom'
+            107, 0, 5, 104, 101, 108, 108, 111, // string "hello"
+            109, 0, 0, 0, 3, 1, 2, 3, // binary <<1,2,3>>
+            104, 3, 97, 2, 104, 3, 97, 5, 97, 6, 98, 0, 0, 1, 244, 97, 10, // {2, {5, 6, 500}, 10}
+            108, 0, 0, 0, 3, 97, 1, 97, 2, 98, 0, 0, 1, 244, 106, // [1, 2, 500]
+            97, 10, // char 10
+            106};
+    uchar bin[] = {1, 2, 3};
+    NSData *data2 = nsdata(b2, 62);
+    NSArray *res2 = [NSArray arrayWithObjects:
+            @"atom",
+            @"hello",
+            nsdata(bin, 3),
+            [NSArray arrayWithObjects:
+                    [NSNumber numberWithChar:2],
+                    [NSArray arrayWithObjects:
+                            [NSNumber numberWithChar:5],
+                            [NSNumber numberWithChar:6],
+                            [NSNumber numberWithInt:500],
+                            [NSNumber numberWithInt:9],
+                            nil],
+                    [NSNumber numberWithChar:10],
+                    [NSNumber numberWithChar:15],
+                    nil],
+            [NSArray arrayWithObjects:
+                    [NSNumber numberWithChar:1],
+                    [NSNumber numberWithChar:2],
+                    [NSNumber numberWithInt:500],
+                    [NSNumber numberWithInt:9],
+                    nil],
+            [NSNumber numberWithChar:10],
+            [NSNumber numberWithInt:(62 - 5)],
+            nil];
+    STAssertEqualObjects(otb_dec_list(data2), res2, @"dec complex list");
 }
 
 @end
