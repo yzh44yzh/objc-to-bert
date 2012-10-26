@@ -161,6 +161,19 @@ bool compareDouble(double val1, double val2) {
     STAssertEqualObjects(otb_enc_string(@"Erlang"), nsdata(b2, 9), @"enc string 'Erlang'");
 }
 
+- (void)testDecString {
+    uchar b1[] = {107, 0, 5, 104, 101, 108, 108, 111};
+    NSString *res = otb_dec_string(nsdata(b1, 8));
+    STAssertEqualObjects(res, @"hello", @"dec string 'hello'");
+
+    uchar b2[] = {107, 0, 6, 69, 114, 108, 97, 110, 103};
+    NSString *res2 = otb_dec_string(nsdata(b2, 9));
+    STAssertEqualObjects(res2, @"Erlang", @"dec string 'Erlang'");
+
+    NSData *invalidData = nsdata(b2, 5);
+    STAssertThrows(otb_dec_string(invalidData), @"should be invalid size exception");
+}
+
 - (void)testEncBinary {
     uchar b[] = {109, 0, 0, 0, 3, 1, 2, 3};
     uchar myBin [] = {1, 2, 3};

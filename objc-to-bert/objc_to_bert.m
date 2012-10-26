@@ -96,6 +96,26 @@ NSData * otb_enc_string(NSString *val) {
     return data;
 }
 
+NSString * otb_dec_string(NSData *val) {
+    if([val length] < 3)
+        [NSException raise:OTB_DEC_EXC
+                    format:@"Can't decode string from %@, not enought length", val];
+    char buf[3];
+    [val getBytes:buf length:3];
+    if(buf[0] != 107)
+        [NSException raise:OTB_DEC_EXC
+                    format:@"Can't decode string from %@, invalid header %d", val, buf[0]];
+
+    int length = (buf[1] << 8) + buf[2];
+    char str[length];
+    if([val length] < (3 + length))
+        [NSException raise:OTB_DEC_EXC
+                    format:@"Can't decode string from %@, not enought length", val];
+    [val getBytes:str range:NSMakeRange(3, length)];
+    str[length] = 0;
+    return [NSString stringWithUTF8String:str];
+}
+
 NSData * otb_enc_binary(NSData *val) {
     NSUInteger size = [val length];
     unsigned char buf[] = {109, size >> 24, size >> 16, size >> 8, size};
@@ -113,7 +133,6 @@ NSData * otb_enc_tuple(NSArray *items) {
 }
 
 NSArray * otb_dec_tuple(NSData *val) {
-    NSLog(@"dec tuple %@ %d", val, [val length]);
     if([val length] < 2)
         [NSException raise:OTB_DEC_EXC
                     format:@"Can't decode tuple from %@, not enought length", val];
