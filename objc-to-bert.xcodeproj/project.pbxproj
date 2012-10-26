@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5D9B2463D0AEB624DAF26322 /* Sample.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5D9B2B2CEAFD6C0C6606C4AF /* Sample.h */; };
+		5D9B2FB9BC23CDAFD9A499CA /* Sample.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D9B2F835EC549DBE1A76C8A /* Sample.m */; };
 		F272AA9B16392EC900A751B0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F272AA9A16392EC900A751B0 /* Foundation.framework */; };
 		F272AAA016392EC900A751B0 /* objc_to_bert.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F272AA9F16392EC900A751B0 /* objc_to_bert.h */; };
 		F272AAA216392EC900A751B0 /* objc_to_bert.m in Sources */ = {isa = PBXBuildFile; fileRef = F272AAA116392EC900A751B0 /* objc_to_bert.m */; };
@@ -36,12 +38,15 @@
 			dstSubfolderSpec = 16;
 			files = (
 				F272AAA016392EC900A751B0 /* objc_to_bert.h in CopyFiles */,
+				5D9B2463D0AEB624DAF26322 /* Sample.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5D9B2B2CEAFD6C0C6606C4AF /* Sample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sample.h; sourceTree = "<group>"; };
+		5D9B2F835EC549DBE1A76C8A /* Sample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sample.m; sourceTree = "<group>"; };
 		F272AA9716392EC900A751B0 /* libobjc-to-bert.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libobjc-to-bert.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F272AA9A16392EC900A751B0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F272AA9E16392EC900A751B0 /* objc-to-bert-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "objc-to-bert-Prefix.pch"; sourceTree = "<group>"; };
@@ -114,6 +119,8 @@
 				F272AA9F16392EC900A751B0 /* objc_to_bert.h */,
 				F272AAA116392EC900A751B0 /* objc_to_bert.m */,
 				F272AA9D16392EC900A751B0 /* Supporting Files */,
+				5D9B2F835EC549DBE1A76C8A /* Sample.m */,
+				5D9B2B2CEAFD6C0C6606C4AF /* Sample.h */,
 			);
 			path = "objc-to-bert";
 			sourceTree = "<group>";
@@ -244,6 +251,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F272AAA216392EC900A751B0 /* objc_to_bert.m in Sources */,
+				5D9B2FB9BC23CDAFD9A499CA /* Sample.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

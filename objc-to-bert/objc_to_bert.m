@@ -19,20 +19,20 @@ unsigned char otb_dec_char(NSData * val) {
     return buf[1];
 }
 
-NSData * otb_enc_int(int val) {
+NSData * otb_enc_long(long val) {
     unsigned char buf[] = {98, val >> 24, val >> 16, val >> 8, val};
     return [NSData dataWithBytes:buf length:5];
 }
 
-int otb_dec_int(NSData *val) {
+long otb_dec_long(NSData *val) {
     if([val length] < 5)
         [NSException raise:OTB_DEC_EXC
-                    format:@"Can't decode int from %@, not enought length", val];
+                    format:@"Can't decode long from %@, not enought length", val];
     unsigned char buf[5];
     [val getBytes:buf length:5];
     if(buf[0] != 98)
         [NSException raise:OTB_DEC_EXC
-                    format:@"Can't decode int from %@, invalid header %d", val, buf[0]];
+                    format:@"Can't decode long from %@, invalid header %d", val, buf[0]];
     return (buf[1] << 24) + (buf[2] << 16) + (buf[3] << 8) + buf[4];
 }
 
@@ -185,7 +185,7 @@ NSArray * otb_dec_list(NSData *val) {
         [NSException raise:OTB_DEC_EXC
                     format:@"Can't decode list from %@, invalid header %d", val, buf[0]];
 
-    int length = (buf[1] << 24) + (buf[2] << 16) + (buf[3] << 8) + buf[4];
+    long length = (buf[1] << 24) + (buf[2] << 16) + (buf[3] << 8) + buf[4];
     if([val length] < (5 + length))
         [NSException raise:OTB_DEC_EXC
                     format:@"Can't decode list from %@, not enought length", val];
@@ -210,7 +210,7 @@ NSArray * otb_get_items(NSData *val, NSUInteger length) {
             } break;
             case 98: {
                 subData = [val subdataWithRange:NSMakeRange(position, 5)];
-                [res addObject:[NSNumber numberWithInt:otb_dec_int(subData)]];
+                [res addObject:[NSNumber numberWithLong:otb_dec_long(subData)]];
                 position += 5;
             } break;
             case 99: {
@@ -257,7 +257,7 @@ NSArray * otb_get_items(NSData *val, NSUInteger length) {
         }
     }
     // NOTE: kind of hack, I put the length of ejected data to res array
-    [res addObject:[NSNumber numberWithInt:position]];
+    [res addObject:[NSNumber numberWithLong:position]];
     return res;
 }
 

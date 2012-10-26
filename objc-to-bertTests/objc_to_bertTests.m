@@ -41,66 +41,66 @@ bool compareDouble(double val1, double val2) {
     STAssertThrows(otb_dec_char(invalidData2), @"should be invalid size exception");
 }
 
-- (void)testEncInt {
+- (void)testEncLong {
     uchar b256[] = {98, 0, 0, 1, 0};
-    STAssertEqualObjects(otb_enc_int(256), nsdata(b256, 5), @"enc int 256");
+    STAssertEqualObjects(otb_enc_long(256), nsdata(b256, 5), @"enc long 256");
 
     uchar b500[] = {98, 0, 0, 1, 244};
-    STAssertEqualObjects(otb_enc_int(500), nsdata(b500, 5), @"enc int 500");
+    STAssertEqualObjects(otb_enc_long(500), nsdata(b500, 5), @"enc long 500");
 
     uchar b1023[] = {98, 0, 0, 3, 255};
-    STAssertEqualObjects(otb_enc_int(1023), nsdata(b1023, 5), @"enc int 2^8-1");
+    STAssertEqualObjects(otb_enc_long(1023), nsdata(b1023, 5), @"enc long 2^8-1");
 
     uchar b1024[] = {98, 0, 0, 4, 0};
-    STAssertEqualObjects(otb_enc_int(1024), nsdata(b1024, 5), @"enc int 2^8");
+    STAssertEqualObjects(otb_enc_long(1024), nsdata(b1024, 5), @"enc long 2^8");
 
     uchar b1025[] = {98, 0, 0, 4, 1};
-    STAssertEqualObjects(otb_enc_int(1025), nsdata(b1025, 5), @"enc int 2^8+1");
+    STAssertEqualObjects(otb_enc_long(1025), nsdata(b1025, 5), @"enc long 2^8+1");
 
     uchar b65535[] = {98, 0, 0, 255, 255};
-    STAssertEqualObjects(otb_enc_int(65535), nsdata(b65535, 5), @"enc int 2^16-1");
+    STAssertEqualObjects(otb_enc_long(65535), nsdata(b65535, 5), @"enc long 2^16-1");
 
     uchar b65536[] = {98, 0, 1, 0, 0};
-    STAssertEqualObjects(otb_enc_int(65536), nsdata(b65536, 5), @"enc int 2^16");
+    STAssertEqualObjects(otb_enc_long(65536), nsdata(b65536, 5), @"enc long 2^16");
 
     uchar b2147483647[] = {98, 127, 255, 255, 255};
-    STAssertEqualObjects(otb_enc_int(2147483647), nsdata(b2147483647, 5), @"enc int 2^31-1");
+    STAssertEqualObjects(otb_enc_long(2147483647), nsdata(b2147483647, 5), @"enc long 2^31-1");
 
     uchar bm1[] = {98, 255, 255, 255, 255};
-    STAssertEqualObjects(otb_enc_int(-1), nsdata(bm1, 5), @"enc int -1");
+    STAssertEqualObjects(otb_enc_long(-1), nsdata(bm1, 5), @"enc long -1");
 
     uchar bm100[] = {98, 255, 255, 255, 156};
-    STAssertEqualObjects(otb_enc_int(-100), nsdata(bm100, 5), @"enc int -100");
+    STAssertEqualObjects(otb_enc_long(-100), nsdata(bm100, 5), @"enc long -100");
 
     uchar bm1024[] = {98, 255, 255, 252, 0};
-    STAssertEqualObjects(otb_enc_int(-1024), nsdata(bm1024, 5), @"enc int -1024");
+    STAssertEqualObjects(otb_enc_long(-1024), nsdata(bm1024, 5), @"enc long -1024");
 
     uchar bm2147483648[] = {98, 128, 0, 0, 0};
-    STAssertEqualObjects(otb_enc_int(-2147483648), nsdata(bm2147483648, 5), @"enc int -2^31");
+    STAssertEqualObjects(otb_enc_long(-2147483648), nsdata(bm2147483648, 5), @"enc long -2^31");
 }
 
-- (void)testDecInt {
+- (void)testDecLong {
     uchar b256[] = {98, 0, 0, 1, 0};
-    STAssertTrue(256 == otb_dec_int(nsdata(b256, 5)), @"dec int 256");
+    STAssertTrue(256 == otb_dec_long(nsdata(b256, 5)), @"dec long 256");
 
     uchar b1024[] = {98, 0, 0, 4, 0};
-    STAssertTrue(1024 == otb_dec_int(nsdata(b1024, 5)), @"dec int 1024");
+    STAssertTrue(1024 == otb_dec_long(nsdata(b1024, 5)), @"dec long 1024");
 
     uchar b2147483647[] = {98, 127, 255, 255, 255};
-    STAssertTrue(2147483647 == otb_dec_int(nsdata(b2147483647, 5)), @"dec int 2^31 - 1");
+    STAssertTrue(2147483647 == otb_dec_long(nsdata(b2147483647, 5)), @"dec long 2^31 - 1");
 
     uchar bm1024[] = {98, 255, 255, 252, 0};
-    STAssertTrue(-1024 == otb_dec_int(nsdata(bm1024, 5)), @"dec int -1024");
+    STAssertTrue(-1024 == otb_dec_long(nsdata(bm1024, 5)), @"dec long -1024");
 
     uchar bm2147483648[] = {98, 128, 0, 0, 0};
-    STAssertTrue(-2147483648 == otb_dec_int(nsdata(bm2147483648, 5)), @"dec int -2^31");
+    STAssertTrue(-2147483648 == otb_dec_long(nsdata(bm2147483648, 5)), @"dec long -2^31");
 
     uchar invalidBuf[] = {97, 0, 0, 1, 0};
     NSData *invalidData = nsdata(invalidBuf, 5);
-    STAssertThrows(otb_dec_int(invalidData), @"should be invalid header exception");
+    STAssertThrows(otb_dec_long(invalidData), @"should be invalid header exception");
 
     NSData *invalidData2 = nsdata(b256, 2);
-    STAssertThrows(otb_dec_int(invalidData2), @"should be invalid size exception");
+    STAssertThrows(otb_dec_long(invalidData2), @"should be invalid size exception");
 }
 
 - (void)testEncDouble {
@@ -129,7 +129,7 @@ bool compareDouble(double val1, double val2) {
     STAssertTrue(compareDouble(-10.35, res), @"dec double -10.35");
 
     NSData *invalidData = nsdata(bm10_35, 10);
-    STAssertThrows(otb_dec_int(invalidData), @"should be invalid size exception");
+    STAssertThrows(otb_dec_long(invalidData), @"should be invalid size exception");
 }
 
 - (void)testEncAtom {
@@ -199,7 +199,7 @@ bool compareDouble(double val1, double val2) {
 
     uchar b2[] = {104, 3, 100, 0, 4, 117, 115, 101, 114, 97, 3, 98, 0, 0, 1, 244};
     NSArray *data2 = [NSArray arrayWithObjects:otb_enc_atom(@"user"), otb_enc_char(3),
-                                               otb_enc_int(500), nil];
+                                               otb_enc_long(500), nil];
     STAssertEqualObjects(otb_enc_tuple(data2), nsdata(b2, 16), @"enc tuple {user, 3, 500}");
 }
 
@@ -209,8 +209,8 @@ bool compareDouble(double val1, double val2) {
     NSArray *res1 = [NSArray arrayWithObjects:
             [NSNumber numberWithChar:5],
             [NSNumber numberWithChar:6],
-            [NSNumber numberWithInt:500],
-            [NSNumber numberWithInt:(11 - 2)], // extracted data length: 11 - tuple header
+            [NSNumber numberWithLong:500],
+            [NSNumber numberWithLong:(11 - 2)], // extracted data length: 11 - tuple header
             nil];
     STAssertEqualObjects(otb_dec_tuple(data1), res1, @"dec tuple {5, 6, 500}");
 
@@ -234,7 +234,7 @@ bool compareDouble(double val1, double val2) {
     NSArray *res3 = [NSArray arrayWithObjects:
             @"atom", @"hello", nsdata(bin, 3),
             [NSNumber numberWithChar:10],
-            [NSNumber numberWithInt:(27 - 2)],
+            [NSNumber numberWithLong:(27 - 2)],
             nil];
     STAssertEqualObjects(otb_dec_tuple(data3), res3, @"dec tuple {atom, 'hello', <<1,2,3>>, 10}");
 
@@ -243,7 +243,7 @@ bool compareDouble(double val1, double val2) {
     NSArray *res4 = [NSArray arrayWithObjects:
             res1,
             [NSNumber numberWithChar:10],
-            [NSNumber numberWithInt:(15 - 2)],
+            [NSNumber numberWithLong:(15 - 2)],
             nil];
     STAssertEqualObjects(otb_dec_tuple(data4), res4, @"dec tuple with inner tuple");
 
@@ -253,12 +253,12 @@ bool compareDouble(double val1, double val2) {
             [NSArray arrayWithObjects:
                     [NSNumber numberWithChar:1],
                     [NSNumber numberWithChar:2],
-                    [NSNumber numberWithInt:500],
-                    [NSNumber numberWithInt:9],
+                    [NSNumber numberWithLong:500],
+                    [NSNumber numberWithLong:9],
                     nil],
             [NSNumber numberWithChar:10],
             [NSNumber numberWithChar:20],
-            [NSNumber numberWithInt:(21 - 2)],
+            [NSNumber numberWithLong:(21 - 2)],
             nil];
     STAssertEqualObjects(otb_dec_tuple(data5), res5, @"dec tuple with inner array");
 }
@@ -266,12 +266,12 @@ bool compareDouble(double val1, double val2) {
 - (void)testEncList {
     uchar b1[] = {108, 0, 0, 0, 3, 97, 1, 97, 2, 98, 0, 0, 1, 244, 106};
     NSArray *data1 = [NSArray arrayWithObjects:otb_enc_char(1), otb_enc_char(2),
-                                               otb_enc_int(500), nil];
+                                               otb_enc_long(500), nil];
     STAssertEqualObjects(otb_enc_list(data1), nsdata(b1, 15), @"enc list [1, 2, 500]");
 
     uchar b2[] = {108, 0, 0, 0, 4, 97, 1, 97, 2, 108, 0, 0, 0, 2, 98, 0, 0, 1, 44,
             98, 0, 0, 1, 244, 106, 97, 3, 106};
-    NSArray *inner = [NSArray arrayWithObjects:otb_enc_int(300), otb_enc_int(500), nil];
+    NSArray *inner = [NSArray arrayWithObjects:otb_enc_long(300), otb_enc_long(500), nil];
     NSArray *data2 = [NSArray arrayWithObjects:otb_enc_char(1), otb_enc_char(2),
                                                otb_enc_list(inner), otb_enc_char(3), nil];
     STAssertEqualObjects(otb_enc_list(data2), nsdata(b2, 28), @"enc list [1, 2, [300, 500], 3]");
@@ -283,8 +283,8 @@ bool compareDouble(double val1, double val2) {
     NSArray *res1 = [NSArray arrayWithObjects:
             [NSNumber numberWithChar:5],
             [NSNumber numberWithChar:6],
-            [NSNumber numberWithInt:500],
-            [NSNumber numberWithInt:(14 - 5)], // extracted data length: 14 - list header
+            [NSNumber numberWithLong:500],
+            [NSNumber numberWithLong:(14 - 5)], // extracted data length: 14 - list header
             nil];
     STAssertEqualObjects(otb_dec_list(data1), res1, @"dec list [5, 6, 500]");
 
@@ -307,8 +307,8 @@ bool compareDouble(double val1, double val2) {
                     [NSArray arrayWithObjects:
                             [NSNumber numberWithChar:5],
                             [NSNumber numberWithChar:6],
-                            [NSNumber numberWithInt:500],
-                            [NSNumber numberWithInt:9],
+                            [NSNumber numberWithLong:500],
+                            [NSNumber numberWithLong:9],
                             nil],
                     [NSNumber numberWithChar:10],
                     [NSNumber numberWithChar:15],
@@ -316,11 +316,11 @@ bool compareDouble(double val1, double val2) {
             [NSArray arrayWithObjects:
                     [NSNumber numberWithChar:1],
                     [NSNumber numberWithChar:2],
-                    [NSNumber numberWithInt:500],
-                    [NSNumber numberWithInt:9],
+                    [NSNumber numberWithLong:500],
+                    [NSNumber numberWithLong:9],
                     nil],
             [NSNumber numberWithChar:10],
-            [NSNumber numberWithInt:(62 - 5)],
+            [NSNumber numberWithLong:(62 - 5)],
             nil];
     STAssertEqualObjects(otb_dec_list(data2), res2, @"dec complex list");
 }
