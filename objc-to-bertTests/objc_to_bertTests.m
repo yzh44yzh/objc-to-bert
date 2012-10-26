@@ -148,6 +148,9 @@ bool compareDouble(double val1, double val2) {
     uchar b2[] = {100, 0, 8, 117, 115, 101, 114, 110, 97, 109, 101};
     NSString *res2 = otb_dec_atom(nsdata(b2, 11));
     STAssertEqualObjects(res2, @"username", @"dec atom 'username'");
+
+    NSData *invalidData = nsdata(b2, 10);
+    STAssertThrows(otb_dec_atom(invalidData), @"should be invalid size exception");
 }
 
 - (void)testEncTuple {

@@ -51,7 +51,6 @@ double otb_dec_double(NSData *val) {
     if(buf[0] != 99)
         [NSException raise:OTB_DEC_EXC
                     format:@"Can't decode double from %@, invalid header %d", val, buf[0]];
-
     double res;
     int num = sscanf(buf, "c%lf", &res);
     if(num != 1)
@@ -69,13 +68,19 @@ NSData * otb_enc_atom(NSString *name) {
 }
 
 NSString * otb_dec_atom(NSData *val){
-    // TODO check size
+    if([val length] < 3)
+        [NSException raise:OTB_DEC_EXC
+                    format:@"Can't decode atom from %@, not enought length", val];
     unsigned char buf[3];
     [val getBytes:buf length:3];
-    // TODO check code
+    if(buf[0] != 100)
+        [NSException raise:OTB_DEC_EXC
+                    format:@"Can't decode atom from %@, invalid header %d", val, buf[0]];
     int length = (buf[1] << 8) + buf[2];
     char str[length];
-    // TODO check size again
+    if([val length] < (3 + length))
+        [NSException raise:OTB_DEC_EXC
+                    format:@"Can't decode atom from %@, not enought length", val];
     [val getBytes:str range:NSMakeRange(3, length)];
     str[length] = 0;
     return [NSString stringWithUTF8String:str];
