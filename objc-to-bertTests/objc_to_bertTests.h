@@ -1,5 +1,6 @@
 #import <SenTestingKit/SenTestingKit.h>
 #import "objc_to_bert.h"
+#import "Sample.h"
 
 #define uchar unsigned char
 

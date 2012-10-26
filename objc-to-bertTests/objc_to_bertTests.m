@@ -325,5 +325,20 @@ bool compareDouble(double val1, double val2) {
     STAssertEqualObjects(otb_dec_list(data2), res2, @"dec complex list");
 }
 
+- (void)testSampleObj {
+    Sample *item1 = [Sample createWithId:2222 andName:@"Bob" andAge:25];
+    NSData *data = [item1 encode];
+    Sample *item2 = [Sample createWithData:data];
+    STAssertTrue(item1.id == item2.id, @"ids should be equal");
+    STAssertEqualObjects(item1.name, item2.name, @"names should be equal");
+    STAssertTrue(item1.age == item2.age, @"ages should be equal");
+
+    Sample *item3 = [[Sample alloc] init];
+    [item3 decode:data];
+    STAssertTrue(item1.id == item3.id, @"ids should be equal");
+    STAssertEqualObjects(item1.name, item3.name, @"names should be equal");
+    STAssertTrue(item1.age == item3.age, @"ages should be equal");
+}
+
 @end
 
