@@ -250,7 +250,7 @@ NSArray * otb_get_items(NSData *val, NSUInteger length) {
                 NSArray *list = otb_dec_list(subData);
                 [res addObject:list];
                 NSNumber *ejectedDataLength = [list objectAtIndex:list.count - 1];
-                position += 5 + ejectedDataLength.longValue;
+                position += 5 + ejectedDataLength.longValue + 1; // plus 106 (empty list) byte
             } break;
             default: {
                 [NSException raise:OTB_DEC_EXC

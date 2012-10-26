@@ -210,7 +210,7 @@ bool compareDouble(double val1, double val2) {
             [NSNumber numberWithChar:5],
             [NSNumber numberWithChar:6],
             [NSNumber numberWithInt:500],
-            [NSNumber numberWithInt:(11 - 2)], // extracted data lenght: 11 - tuple header
+            [NSNumber numberWithInt:(11 - 2)], // extracted data length: 11 - tuple header
             nil];
     STAssertEqualObjects(otb_dec_tuple(data1), res1, @"dec tuple {5, 6, 500}");
 
@@ -224,7 +224,43 @@ bool compareDouble(double val1, double val2) {
             nil];
     STAssertEqualObjects(otb_dec_tuple(data2), res2, @"dec tuple {0.5, 10}");
 
+    uchar b3[] = {104, 4,
+            100, 0, 4, 97, 116, 111, 109, // atom 'atom'
+            107, 0, 5, 104, 101, 108, 108, 111, // string "hello"
+            109, 0, 0, 0, 3, 1, 2, 3, // binary <<1,2,3>>
+            97, 10}; // char 10
+    uchar bin[] = {1, 2, 3};
+    NSData *data3 = nsdata(b3, 27);
+    NSArray *res3 = [NSArray arrayWithObjects:
+            @"atom", @"hello", nsdata(bin, 3),
+            [NSNumber numberWithChar:10],
+            [NSNumber numberWithInt:(27 - 2)],
+            nil];
+    STAssertEqualObjects(otb_dec_tuple(data3), res3, @"dec tuple {atom, 'hello', <<1,2,3>>, 10}");
 
+    uchar b4[] = {104, 2, 104, 3, 97, 5, 97, 6, 98, 0, 0, 1, 244, 97, 10};
+    NSData *data4 = nsdata(b4, 15);
+    NSArray *res4 = [NSArray arrayWithObjects:
+            res1,
+            [NSNumber numberWithChar:10],
+            [NSNumber numberWithInt:(15 - 2)],
+            nil];
+    STAssertEqualObjects(otb_dec_tuple(data4), res4, @"dec tuple with inner tuple");
+
+    uchar b5[] = {104, 3, 108, 0, 0, 0, 3, 97, 1, 97, 2, 98, 0, 0, 1, 244, 106, 97, 10, 97, 20};
+    NSData *data5 = nsdata(b5, 21);
+    NSArray *res5 = [NSArray arrayWithObjects:
+            [NSArray arrayWithObjects:
+                    [NSNumber numberWithChar:1],
+                    [NSNumber numberWithChar:2],
+                    [NSNumber numberWithInt:500],
+                    [NSNumber numberWithInt:9],
+                    nil],
+            [NSNumber numberWithChar:10],
+            [NSNumber numberWithChar:20],
+            [NSNumber numberWithInt:(21 - 2)],
+            nil];
+    STAssertEqualObjects(otb_dec_tuple(data5), res5, @"dec tuple with inner array");
 }
 
 - (void)testEncList {
@@ -239,6 +275,13 @@ bool compareDouble(double val1, double val2) {
     NSArray *data2 = [NSArray arrayWithObjects:otb_enc_char(1), otb_enc_char(2),
                                                otb_enc_list(inner), otb_enc_char(3), nil];
     STAssertEqualObjects(otb_enc_list(data2), nsdata(b2, 28), @"enc list [1, 2, [300, 500], 3]");
+}
+
+- (void)testDecList {
+    // char, int, float
+    // atom, string, binary
+    // inner list
+    // inner tuple
 }
 
 @end
