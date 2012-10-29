@@ -28,6 +28,10 @@ NSData * otb_enc_binary(NSData *val);
 
 NSData * otb_dec_binary(NSData *val);
 
+NSData * otb_enc_bstr(NSString * val);
+
+NSString * otb_dec_bstr(NSData * val);
+
 NSData * otb_enc_tuple(NSArray *items);
 
 DecodedData * otb_dec_tuple(NSData *val);

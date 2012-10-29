@@ -142,6 +142,19 @@ NSData * otb_dec_binary(NSData *val){
     return [val subdataWithRange:range];
 }
 
+NSData * otb_enc_bstr(NSString * val) {
+    return otb_enc_binary([val dataUsingEncoding:NSUTF8StringEncoding]);
+}
+
+NSString * otb_dec_bstr(NSData * val) {
+    NSData *dt = otb_dec_binary(val);
+    NSUInteger length = [dt length];
+    char buf[length + 1];
+    [dt getBytes:buf length:length];
+    buf[length] = 0;
+    return [NSString stringWithUTF8String:buf];
+}
+
 NSData * otb_enc_tuple(NSArray *items) {
     NSUInteger size = [items count];
     unsigned char buf[] = {104, size};
