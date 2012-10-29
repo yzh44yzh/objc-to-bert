@@ -5,18 +5,18 @@
 @interface Sample : NSObject {
     long id;
     NSString *name;
-    char age;
+    unsigned char age;
 }
 
 @property(nonatomic, assign) long id;
 @property(nonatomic, copy) NSString *name;
-@property(nonatomic, assign) char age;
+@property(nonatomic, assign) unsigned char age;
 
 + (Sample *)createWithData:(NSData *)data;
 
 + (Sample *)createWithDecodedData:(DecodedData *)data;
 
-+ (Sample *)createWithId:(long)id andName:(NSString *)name andAge:(char)age;
++ (Sample *)createWithId:(long)id andName:(NSString *)name andAge:(unsigned char)age;
 
 - (NSData *)encode;
 

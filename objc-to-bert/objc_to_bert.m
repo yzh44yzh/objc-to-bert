@@ -195,7 +195,7 @@ DecodedData * otb_dec_list(NSData *val) {
 
 DecodedData * otb_get_items(NSData *val, NSUInteger length) {
     NSUInteger position = 0;
-    NSMutableArray *res = [NSMutableArray array];
+    DecodedData *res = [[DecodedData alloc] init];
 
     for (int i = 0; i < length; i++) {
         char header[1];
@@ -205,50 +205,48 @@ DecodedData * otb_get_items(NSData *val, NSUInteger length) {
         switch(header[0]) {
             case 97: {
                 subData = [val subdataWithRange:NSMakeRange(position, 2)];
-                [res addObject:[NSNumber numberWithChar:otb_dec_char(subData)]];
+                [res addChar:otb_dec_char(subData)];
                 position += 2;
             } break;
             case 98: {
                 subData = [val subdataWithRange:NSMakeRange(position, 5)];
-                [res addObject:[NSNumber numberWithLong:otb_dec_long(subData)]];
+                [res addLong:otb_dec_long(subData)];
                 position += 5;
             } break;
             case 99: {
                 subData = [val subdataWithRange:NSMakeRange(position, 32)];
-                [res addObject:[NSNumber numberWithDouble:otb_dec_double(subData)]];
+                [res addDouble:otb_dec_double(subData)];
                 position += 32;
             } break;
             case 100: {
                 subData = [val subdataWithRange:NSMakeRange(position, [val length] - position)];
                 NSString *atom = otb_dec_atom(subData);
-                [res addObject:atom];
+                [res addString:atom];
                 position += 3 + atom.length;
             } break;
             case 107: {
                 subData = [val subdataWithRange:NSMakeRange(position, [val length] - position)];
                 NSString *str = otb_dec_string(subData);
-                [res addObject:str];
+                [res addString:str];
                 position += 3 + str.length;
             } break;
             case 109: {
                 subData = [val subdataWithRange:NSMakeRange(position, [val length] - position)];
                 NSData *bin = otb_dec_binary(subData);
-                [res addObject:bin];
+                [res addBinary:bin];
                 position += 5 + bin.length;
             } break;
             case 104: {
                 subData = [val subdataWithRange:NSMakeRange(position, [val length] - position)];
                 DecodedData *tuple = otb_dec_tuple(subData);
-                [res addObject:tuple];
-                NSNumber *ejectedDataLength = [tuple objectAtIndex:tuple.count - 1];
-                position += 2 + ejectedDataLength.longValue;
+                [res addDecodedData:tuple];
+                position += 2 + tuple.binLength;
             } break;
             case 108: {
                 subData = [val subdataWithRange:NSMakeRange(position, [val length] - position)];
                 DecodedData *list = otb_dec_list(subData);
-                [res addObject:list];
-                NSNumber *ejectedDataLength = [list objectAtIndex:list.count - 1];
-                position += 5 + ejectedDataLength.longValue + 1; // plus 106 (empty list) byte
+                [res addDecodedData:list];
+                position += 5 + list.binLength + 1; // plus byte 106 (empty list)
             } break;
             default: {
                 [NSException raise:OTB_DEC_EXC
@@ -256,8 +254,7 @@ DecodedData * otb_get_items(NSData *val, NSUInteger length) {
             }
         }
     }
-    // NOTE: kind of hack, I put the length of ejected data to res array
-    [res addObject:[NSNumber numberWithLong:position]];
+    res.binLength = position;
     return res;
 }
 

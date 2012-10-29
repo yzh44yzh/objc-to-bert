@@ -1,8 +1,8 @@
 #import <Foundation/Foundation.h>
+#import "DecodedData.h"
 
 #define OTB_DEC_EXC @"otb_decode_exception"
 
-#define DecodedData NSArray
 
 NSData * otb_enc_char(unsigned char val);
 

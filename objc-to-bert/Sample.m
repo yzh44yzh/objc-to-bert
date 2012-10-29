@@ -19,7 +19,7 @@
     return item;
 }
 
-+ (Sample *)createWithId:(long)id andName:(NSString *)name andAge:(char)age {
++ (Sample *)createWithId:(long)id andName:(NSString *)name andAge:(unsigned char)age {
     Sample *item = [[Sample alloc] init];
     if(item) {
         item.id = id;
@@ -43,10 +43,10 @@
 }
 
 - (void)initWithDecodedData:(DecodedData *)data {
-    if([@"sample" isEqualToString:[data objectAtIndex:0]]) {
-        self.id = [[data objectAtIndex:1] longValue];
-        self.name = [data objectAtIndex:2];
-        self.age = [[data objectAtIndex:3] charValue];
+    if([@"sample" isEqualToString:[data getString:0]]) {
+        self.id = [data getLong:1];
+        self.name = [data getString:2];
+        self.age = [data getChar:3];
     }
     else [NSException raise:@"SampleDecodeException"
                      format:@"Can't decode Sample from %@, invalid data", data];

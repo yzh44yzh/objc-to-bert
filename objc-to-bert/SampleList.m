@@ -29,12 +29,12 @@
 }
 
 - (void)decode:(NSData *)data {
-    NSArray *props = otb_dec_tuple(data);
-    if([@"sample_list" isEqualToString:[props objectAtIndex:0]]) {
+    DecodedData *props = otb_dec_tuple(data);
+    if([@"sample_list" isEqualToString:[props getString:0]]) {
         [items removeAllObjects];
-        NSArray *tmp = [props objectAtIndex:1];
-        for (int i = 0; i < tmp.count - 1; i++) { // skip last element
-            [items addObject:[Sample createWithDecodedData:[tmp objectAtIndex:i]]];
+        DecodedData *tmp = [props getDecodedData:1];
+        for (NSUInteger i = 0; i < tmp.data.count; i++) {
+            [items addObject:[Sample createWithDecodedData:[tmp getDecodedData:i]]];
         }
     }
     else [NSException raise:@"SampleListDecodeException"

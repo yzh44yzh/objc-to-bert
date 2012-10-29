@@ -206,23 +206,25 @@ bool compareDouble(double val1, double val2) {
 - (void)testDecTuple {
     uchar b1[] = {104, 3, 97, 5, 97, 6, 98, 0, 0, 1, 244};
     NSData *data1 = nsdata(b1, 11);
-    DecodedData *res1 = [NSArray arrayWithObjects:
+    NSArray *waitFor1 = [NSArray arrayWithObjects:
             [NSNumber numberWithChar:5],
             [NSNumber numberWithChar:6],
             [NSNumber numberWithLong:500],
-            [NSNumber numberWithLong:(11 - 2)], // extracted data length: 11 - tuple header
             nil];
-    STAssertEqualObjects(otb_dec_tuple(data1), res1, @"dec tuple {5, 6, 500}");
+    DecodedData *res1 = otb_dec_tuple(data1);
+    STAssertTrue(res1.binLength == 9, @"res1 binLength");
+    STAssertEqualObjects(res1.data, waitFor1, @"dec tuple {5, 6, 500}");
 
     uchar b2[] = {104, 2, 99, 53, 46, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48,
             48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 101, 45, 48, 49, 0, 0, 0, 0, 0, 97, 10};
     NSData *data2 = nsdata(b2, 36);
-    DecodedData *res2 = [NSArray arrayWithObjects:
+    NSArray *waitFor2 = [NSArray arrayWithObjects:
             [NSNumber numberWithDouble:0.5],
             [NSNumber numberWithChar:10],
-            [NSNumber numberWithChar:(36 - 2)],
             nil];
-    STAssertEqualObjects(otb_dec_tuple(data2), res2, @"dec tuple {0.5, 10}");
+    DecodedData *res2 = otb_dec_tuple(data2);
+    STAssertTrue(res2.binLength == 34, @"res2 binLength");
+    STAssertEqualObjects(res2.data, waitFor2, @"dec tuple {0.5, 10}");
 
     uchar b3[] = {104, 4,
             100, 0, 4, 97, 116, 111, 109, // atom 'atom'
@@ -231,36 +233,39 @@ bool compareDouble(double val1, double val2) {
             97, 10}; // char 10
     uchar bin[] = {1, 2, 3};
     NSData *data3 = nsdata(b3, 27);
-    DecodedData *res3 = [NSArray arrayWithObjects:
+    NSArray *waitFor3 = [NSArray arrayWithObjects:
             @"atom", @"hello", nsdata(bin, 3),
             [NSNumber numberWithChar:10],
-            [NSNumber numberWithLong:(27 - 2)],
             nil];
-    STAssertEqualObjects(otb_dec_tuple(data3), res3, @"dec tuple {atom, 'hello', <<1,2,3>>, 10}");
+    DecodedData *res3 = otb_dec_tuple(data3);
+    STAssertTrue(res3.binLength == 25, @"res3 binLength");
+    STAssertEqualObjects(res3.data, waitFor3, @"dec tuple {atom, 'hello', <<1,2,3>>, 10}");
 
-    uchar b4[] = {104, 2, 104, 3, 97, 5, 97, 6, 98, 0, 0, 1, 244, 97, 10};
-    NSData *data4 = nsdata(b4, 15);
-    DecodedData *res4 = [NSArray arrayWithObjects:
+    uchar b4[] = {104, 3, 97, 5, 104, 3, 97, 5, 97, 6, 98, 0, 0, 1, 244, 97, 10};
+    NSData *data4 = nsdata(b4, 17);
+    NSArray *waitFor4 = [NSArray arrayWithObjects:
+            [NSNumber numberWithChar:5],
             res1,
             [NSNumber numberWithChar:10],
-            [NSNumber numberWithLong:(15 - 2)],
             nil];
-    STAssertEqualObjects(otb_dec_tuple(data4), res4, @"dec tuple with inner tuple");
+    DecodedData *res4 = otb_dec_tuple(data4);
+    STAssertTrue(res4.binLength == 15, @"res4 binLength");
+    STAssertEqualObjects(res4.data, waitFor4, @"dec tuple with inner tuple");
 
-    uchar b5[] = {104, 3, 108, 0, 0, 0, 3, 97, 1, 97, 2, 98, 0, 0, 1, 244, 106, 97, 10, 97, 20};
-    NSData *data5 = nsdata(b5, 21);
-    DecodedData *res5 = [NSArray arrayWithObjects:
-            [NSArray arrayWithObjects:
-                    [NSNumber numberWithChar:1],
-                    [NSNumber numberWithChar:2],
-                    [NSNumber numberWithLong:500],
-                    [NSNumber numberWithLong:9],
-                    nil],
+    uchar b5[] = {104, 4, 97, 5, 108, 0, 0, 0, 3, 97, 1, 97, 2, 98, 0, 0, 1, 244, 106,
+            97, 10, 97, 20};
+    NSData *data5 = nsdata(b5, 23);
+    uchar barr[] = {108, 0, 0, 0, 3, 97, 1, 97, 2, 98, 0, 0, 1, 244, 106};
+    NSData *dataArr = nsdata(barr, 15);
+    NSArray *waitFor5 = [NSArray arrayWithObjects:
+            [NSNumber numberWithChar:5],
+            otb_dec_list(dataArr),
             [NSNumber numberWithChar:10],
             [NSNumber numberWithChar:20],
-            [NSNumber numberWithLong:(21 - 2)],
             nil];
-    STAssertEqualObjects(otb_dec_tuple(data5), res5, @"dec tuple with inner array");
+    DecodedData *res5 = otb_dec_tuple(data5);
+    STAssertTrue(res5.binLength == 21, @"res5 binLength");
+    STAssertEqualObjects(res5.data, waitFor5, @"dec tuple with inner array");
 }
 
 - (void)testEncList {
@@ -280,13 +285,14 @@ bool compareDouble(double val1, double val2) {
 - (void)testDecList {
     uchar b1[] = {108, 0, 0, 0, 3, 97, 5, 97, 6, 98, 0, 0, 1, 244};
     NSData *data1 = nsdata(b1, 14);
-    DecodedData *res1 = [NSArray arrayWithObjects:
+    NSArray *waitFor1 = [NSArray arrayWithObjects:
             [NSNumber numberWithChar:5],
             [NSNumber numberWithChar:6],
             [NSNumber numberWithLong:500],
-            [NSNumber numberWithLong:(14 - 5)], // extracted data length: 14 - list header
             nil];
-    STAssertEqualObjects(otb_dec_list(data1), res1, @"dec list [5, 6, 500]");
+    DecodedData *res1 = otb_dec_list(data1);
+    STAssertTrue(res1.binLength == 9, @"res1 binLength");
+    STAssertEqualObjects(res1.data, waitFor1, @"dec list [5, 6, 500]");
 
     uchar b2[] = {108, 0, 0, 0, 6,
             100, 0, 4, 97, 116, 111, 109, // atom 'atom'
@@ -298,31 +304,24 @@ bool compareDouble(double val1, double val2) {
             106};
     uchar bin[] = {1, 2, 3};
     NSData *data2 = nsdata(b2, 62);
-    DecodedData *res2 = [NSArray arrayWithObjects:
+
+    uchar bTup[] = {104, 3, 97, 2, 104, 3, 97, 5, 97, 6, 98, 0, 0, 1, 244, 97, 10};
+    NSData *dataTup = nsdata(bTup, 17);
+
+    uchar barr[] = {108, 0, 0, 0, 3, 97, 1, 97, 2, 98, 0, 0, 1, 244, 106};
+    NSData *dataArr = nsdata(barr, 15);
+
+    NSArray *waitFor2 = [NSArray arrayWithObjects:
             @"atom",
             @"hello",
             nsdata(bin, 3),
-            [NSArray arrayWithObjects:
-                    [NSNumber numberWithChar:2],
-                    [NSArray arrayWithObjects:
-                            [NSNumber numberWithChar:5],
-                            [NSNumber numberWithChar:6],
-                            [NSNumber numberWithLong:500],
-                            [NSNumber numberWithLong:9],
-                            nil],
-                    [NSNumber numberWithChar:10],
-                    [NSNumber numberWithChar:15],
-                    nil],
-            [NSArray arrayWithObjects:
-                    [NSNumber numberWithChar:1],
-                    [NSNumber numberWithChar:2],
-                    [NSNumber numberWithLong:500],
-                    [NSNumber numberWithLong:9],
-                    nil],
+            otb_dec_tuple(dataTup),
+            otb_dec_list(dataArr),
             [NSNumber numberWithChar:10],
-            [NSNumber numberWithLong:(62 - 5)],
             nil];
-    STAssertEqualObjects(otb_dec_list(data2), res2, @"dec complex list");
+    DecodedData *res2 = otb_dec_list(data2);
+    STAssertTrue(res2.binLength == 57, @"res2 binLength");
+    STAssertEqualObjects(res2.data, waitFor2, @"dec complex list");
 }
 
 - (void)testSampleObj {
