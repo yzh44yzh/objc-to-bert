@@ -6,7 +6,7 @@
     NSUInteger binLength;
 }
 
-@property(nonatomic, copy) NSArray *data;
+@property(nonatomic, readonly) NSArray *data;
 
 @property(nonatomic, assign) NSUInteger binLength;
 

@@ -78,7 +78,7 @@ NSString * otb_dec_atom(NSData *val){
     if(buf[0] != 100)
         [NSException raise:OTB_DEC_EXC
                     format:@"Can't decode atom from %@, invalid header %d", val, buf[0]];
-    int length = (buf[1] << 8) + buf[2];
+    NSUInteger length = (buf[1] << 8) + buf[2];
     char str[length];
     if([val length] < (3 + length))
         [NSException raise:OTB_DEC_EXC
@@ -106,7 +106,7 @@ NSString * otb_dec_string(NSData *val) {
         [NSException raise:OTB_DEC_EXC
                     format:@"Can't decode string from %@, invalid header %d", val, buf[0]];
 
-    int length = (buf[1] << 8) + buf[2];
+    NSUInteger length = (NSUInteger) ((buf[1] << 8) + buf[2]);
     char str[length];
     if([val length] < (3 + length))
         [NSException raise:OTB_DEC_EXC
