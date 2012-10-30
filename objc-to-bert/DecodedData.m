@@ -72,4 +72,12 @@
     return false;
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+    DecodedData *newItem = [[[self class] allocWithZone:zone] init];
+    newItem.binLength = self.binLength;
+    newItem.data = self.data;
+    return newItem;
+}
+
+
 @end
