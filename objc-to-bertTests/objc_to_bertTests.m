@@ -159,6 +159,9 @@ bool compareDouble(double val1, double val2) {
 
     uchar b2[] = {107, 0, 6, 69, 114, 108, 97, 110, 103};
     STAssertEqualObjects(otb_enc_string(@"Erlang"), nsdata(b2, 9), @"enc string 'Erlang'");
+
+    uchar b3[] = {106};
+    STAssertEqualObjects(otb_enc_string(@""), nsdata(b3, 1), @"enc empty string");
 }
 
 - (void)testDecString {
@@ -169,6 +172,10 @@ bool compareDouble(double val1, double val2) {
     uchar b2[] = {107, 0, 6, 69, 114, 108, 97, 110, 103};
     NSString *res2 = otb_dec_string(nsdata(b2, 9));
     STAssertEqualObjects(res2, @"Erlang", @"dec string 'Erlang'");
+
+    uchar b3[] = {106};
+    NSString *res3 = otb_dec_string(nsdata(b3, 1));
+    STAssertEqualObjects(res3, @"", @"dec empty string");
 
     NSData *invalidData = nsdata(b2, 5);
     STAssertThrows(otb_dec_string(invalidData), @"should be invalid size exception");
@@ -301,16 +308,17 @@ bool compareDouble(double val1, double val2) {
 }
 
 - (void)testDecList {
-    uchar b1[] = {108, 0, 0, 0, 3, 97, 5, 97, 6, 98, 0, 0, 1, 244};
-    NSData *data1 = nsdata(b1, 14);
+    uchar b1[] = {108, 0, 0, 0, 4, 97, 5, 106, 97, 6, 98, 0, 0, 1, 244};
+    NSData *data1 = nsdata(b1, 15);
     NSArray *waitFor1 = [NSArray arrayWithObjects:
             [NSNumber numberWithChar:5],
+            @"",
             [NSNumber numberWithChar:6],
             [NSNumber numberWithLong:500],
             nil];
     DecodedData *res1 = otb_dec_list(data1);
-    STAssertTrue(res1.binLength == 9, @"res1 binLength");
-    STAssertEqualObjects(res1.data, waitFor1, @"dec list [5, 6, 500]");
+    STAssertTrue(res1.binLength == 10, @"res1 binLength");
+    STAssertEqualObjects(res1.data, waitFor1, @"dec list [5, \"\", 6, 500]");
 
     uchar b2[] = {108, 0, 0, 0, 6,
             100, 0, 4, 97, 116, 111, 109, // atom 'atom'
@@ -358,11 +366,13 @@ bool compareDouble(double val1, double val2) {
     Sample *item1 = [Sample createWithId:1 andName:@"Bob" andAge:25];
     Sample *item2 = [Sample createWithId:2 andName:@"Bill" andAge:24];
     Sample *item3 = [Sample createWithId:3 andName:@"Helen" andAge:23];
+    Sample *item4 = [Sample createWithId:4 andName:@"" andAge:25];
 
     SampleList *list1 = [[SampleList alloc] init];
     [list1 addItem:item1];
     [list1 addItem:item2];
     [list1 addItem:item3];
+    [list1 addItem:item4];
     NSData *data = [list1 encode];
 
     SampleList *list2 = [[SampleList alloc] init];

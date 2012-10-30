@@ -89,6 +89,10 @@ NSString * otb_dec_atom(NSData *val){
 }
 
 NSData * otb_enc_string(NSString *val) {
+    if([val isEqualToString:@""]) {
+        int8_t buf[] = {106}; // empty list
+        return [NSData dataWithBytes:buf length:1];
+    }
     NSUInteger size = [val length];
     unsigned char buf[] = {107, size >> 8, size};
     NSMutableData *data = [NSMutableData dataWithBytes:buf length:3];
@@ -97,6 +101,10 @@ NSData * otb_enc_string(NSString *val) {
 }
 
 NSString * otb_dec_string(NSData *val) {
+    char empty_str_buf[1];
+    [val getBytes:empty_str_buf length:1];
+    if(empty_str_buf[0] == 106) return @"";
+
     if([val length] < 3)
         [NSException raise:OTB_DEC_EXC
                     format:@"Can't decode string from %@, not enought length", val];
@@ -236,6 +244,10 @@ DecodedData * otb_get_items(NSData *val, NSUInteger length) {
                 NSString *atom = otb_dec_atom(subData);
                 [res addString:atom];
                 position += 3 + atom.length;
+            } break;
+            case 106 : {
+                [res addString:@""];
+                position += 1;
             } break;
             case 107: {
                 subData = [val subdataWithRange:NSMakeRange(position, [val length] - position)];
