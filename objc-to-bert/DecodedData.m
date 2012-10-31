@@ -14,7 +14,7 @@
 }
 
 - (void)addChar:(unsigned char)val {
-    [data addObject:[NSNumber numberWithChar:val]];
+    [data addObject:[NSNumber numberWithUnsignedChar:val]];
 }
 
 - (unsigned char)getChar:(NSUInteger)index {
