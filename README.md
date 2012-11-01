@@ -1,4 +1,4 @@
-## Objective C to Binary Erlang Term (BERT) serialization and deserialization library
+Objective C to Binary Erlang Term (BERT) serialization and deserialization library from [dieselpuppet.com](http://dieselpuppet.com/).
 
 Library can be used to build Objective C iOS/MacOS client which need to communicate with Erlang based server (or any BERT server). 
 
