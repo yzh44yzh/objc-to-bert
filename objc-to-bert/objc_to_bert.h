@@ -24,6 +24,8 @@ NSData * otb_enc_string(NSString *val);
 
 NSString * otb_dec_string(NSData *val);
 
+NSUInteger otb_get_string_buf_length(NSData *val);
+
 NSData * otb_enc_binary(NSData *val);
 
 NSData * otb_dec_binary(NSData *val);

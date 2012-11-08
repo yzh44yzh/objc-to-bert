@@ -101,9 +101,22 @@ NSData * otb_enc_string(NSString *val) {
 }
 
 NSString * otb_dec_string(NSData *val) {
+    NSUInteger length = otb_get_string_buf_length(val);
+    if(length == 1) return @"";
+
+    char str[length];
+    if([val length] < (3 + length))
+        [NSException raise:OTB_DEC_EXC
+                    format:@"Can't decode string from %@, not enought length", val];
+    [val getBytes:str range:NSMakeRange(3, length)];
+    str[length] = 0;
+    return [NSString stringWithUTF8String:str];
+}
+
+NSUInteger otb_get_string_buf_length(NSData *val) {
     char empty_str_buf[1];
     [val getBytes:empty_str_buf length:1];
-    if(empty_str_buf[0] == 106) return @"";
+    if(empty_str_buf[0] == 106) return 1;
 
     if([val length] < 3)
         [NSException raise:OTB_DEC_EXC
@@ -114,14 +127,7 @@ NSString * otb_dec_string(NSData *val) {
         [NSException raise:OTB_DEC_EXC
                     format:@"Can't decode string from %@, invalid header %d", val, buf[0]];
 
-    NSUInteger length = (NSUInteger) ((buf[1] << 8) + buf[2]);
-    char str[length];
-    if([val length] < (3 + length))
-        [NSException raise:OTB_DEC_EXC
-                    format:@"Can't decode string from %@, not enought length", val];
-    [val getBytes:str range:NSMakeRange(3, length)];
-    str[length] = 0;
-    return [NSString stringWithUTF8String:str];
+    return (NSUInteger) ((buf[1] << 8) + buf[2]);
 }
 
 NSData * otb_enc_binary(NSData *val) {
@@ -253,7 +259,7 @@ DecodedData * otb_get_items(NSData *val, NSUInteger length) {
                 subData = [val subdataWithRange:NSMakeRange(position, [val length] - position)];
                 NSString *str = otb_dec_string(subData);
                 [res addString:str];
-                position += 3 + str.length;
+                position += 3 + otb_get_string_buf_length(subData);
             } break;
             case 109: {
                 subData = [val subdataWithRange:NSMakeRange(position, [val length] - position)];

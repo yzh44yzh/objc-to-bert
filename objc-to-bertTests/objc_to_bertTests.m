@@ -380,5 +380,22 @@ bool compareDouble(double val1, double val2) {
     STAssertEqualObjects(list1, list2, @"lists should be equal");
 }
 
+- (void)testStrWithZeroBytes {
+    // [97, 0, 0] string with 'a' and 2 zero bytes
+    // Erlang encodes list [97, 0, 0] this way:
+    uchar b1[] = {107, 0, 3, 97, 0, 0};
+    NSData *data1 = nsdata(b1, 6);
+    NSString *res = otb_dec_string(data1);
+    STAssertEqualObjects(res, @"a", @"dec string [97, 0, 0]");
+
+    // {[97, 0, 0], "", "aaa"}
+    uchar b2[] = {104, 3, 107, 0, 3, 97, 0, 0, 106, 107, 0, 3, 97, 97, 97};
+    NSData *data2 = nsdata(b2, 15);
+    NSArray *waitFor = [NSArray arrayWithObjects:@"a", @"", @"aaa", nil];
+    DecodedData *res2 = otb_dec_tuple(data2);
+    STAssertTrue(res2.binLength == 13, @"res2 binLength");
+    STAssertEqualObjects(res2.data, waitFor, @"dec tuple {[97, 0, 0], \"\", \"aaa\"}");
+}
+
 @end
 
