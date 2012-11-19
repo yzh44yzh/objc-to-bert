@@ -351,6 +351,7 @@
 				GCC_PREFIX_HEADER = "objc-to-bert/objc-to-bert-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -363,6 +364,7 @@
 				GCC_PREFIX_HEADER = "objc-to-bert/objc-to-bert-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -416,6 +418,7 @@
 				F272AABE16392ECA00A751B0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F272AABF16392ECA00A751B0 /* Build configuration list for PBXNativeTarget "objc-to-bertTests" */ = {
 			isa = XCConfigurationList;
@@ -424,6 +427,7 @@
 				F272AAC116392ECA00A751B0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
