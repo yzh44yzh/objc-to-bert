@@ -114,14 +114,14 @@ NSString * otb_dec_string(NSData *val) {
 }
 
 NSUInteger otb_get_string_buf_length(NSData *val) {
-    char empty_str_buf[1];
+    unsigned char empty_str_buf[1];
     [val getBytes:empty_str_buf length:1];
     if(empty_str_buf[0] == 106) return 1;
 
     if([val length] < 3)
         [NSException raise:OTB_DEC_EXC
                     format:@"Can't decode string from %@, not enought length", val];
-    char buf[3];
+    unsigned char buf[3];
     [val getBytes:buf length:3];
     if(buf[0] != 107)
         [NSException raise:OTB_DEC_EXC
@@ -142,13 +142,13 @@ NSData * otb_dec_binary(NSData *val){
     if([val length] < 5)
         [NSException raise:OTB_DEC_EXC
                     format:@"Can't decode binary from %@, not enought length", val];
-    char buf[5];
+    unsigned char buf[5];
     [val getBytes:buf length:5];
     if(buf[0] != 109)
         [NSException raise:OTB_DEC_EXC
                     format:@"Can't decode binary from %@, invalid header %d", val, buf[0]];
 
-    int length = (buf[1] << 24) + (buf[2] << 16) + (buf[3] << 8) + buf[4];
+    unsigned int length = (buf[1] << 24) + (buf[2] << 16) + (buf[3] << 8) + buf[4];
     if([val length] < (5 + length))
         [NSException raise:OTB_DEC_EXC
                     format:@"Can't decode binary from %@, not enought length", val];
@@ -181,7 +181,7 @@ DecodedData * otb_dec_tuple(NSData *val) {
     if([val length] < 2)
         [NSException raise:OTB_DEC_EXC
                     format:@"Can't decode tuple from %@, not enought length", val];
-    char buf[2];
+    unsigned char buf[2];
     [val getBytes:buf length:2];
     if(buf[0] != 104)
         [NSException raise:OTB_DEC_EXC
@@ -206,7 +206,7 @@ DecodedData * otb_dec_list(NSData *val) {
     if([val length] < 5)
         [NSException raise:OTB_DEC_EXC
                     format:@"Can't decode list from %@, not enought length", val];
-    char buf[5];
+    unsigned char buf[5];
     [val getBytes:buf length:5];
     if(buf[0] != 108)
         [NSException raise:OTB_DEC_EXC
@@ -225,7 +225,7 @@ DecodedData * otb_get_items(NSData *val, NSUInteger length) {
     DecodedData *res = [[DecodedData alloc] init];
 
     for (int i = 0; i < length; i++) {
-        char header[1];
+        unsigned char header[1];
         NSData *subData;
         [val getBytes:header range:NSMakeRange(position, 1)];
 
