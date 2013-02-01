@@ -1,8 +1,8 @@
 #import <Foundation/Foundation.h>
 #import "DecodedData.h"
 
-#define OTB_DEC_EXC @"otb_decode_exception"
-
+#define EXC(msg, val) [NSException raise:@"otb_decode_exception" format:(msg), (val)]
+#define EXC2(msg, val1, val2) [NSException raise:@"otb_decode_exception" format:(msg), (val1), (val2)]
 
 NSData * otb_enc_char(unsigned char val);
 

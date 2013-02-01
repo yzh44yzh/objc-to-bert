@@ -1,10 +1,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface DecodedData : NSObject <NSCopying> {
-    NSMutableArray *data;
-    NSUInteger binLength;
-}
+@interface DecodedData : NSObject <NSCopying>
 
 @property(nonatomic, copy) NSMutableArray *data;
 

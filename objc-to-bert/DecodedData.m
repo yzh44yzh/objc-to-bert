@@ -1,64 +1,66 @@
 #import "DecodedData.h"
 
-@implementation DecodedData
+@implementation DecodedData {
+    NSMutableArray *_data;
+}
 
-@synthesize data;
-@synthesize binLength;
+@synthesize data = _data;
 
 - (id)init {
     self = [super init];
     if (self) {
-        data = [NSMutableArray array];
+        _data = [NSMutableArray array];
+        self.binLength = 0;
     }
     return self;
 }
 
 - (void)addChar:(unsigned char)val {
-    [data addObject:[NSNumber numberWithUnsignedChar:val]];
+    [_data addObject:[NSNumber numberWithUnsignedChar:val]];
 }
 
 - (unsigned char)getChar:(NSUInteger)index {
-    return (unsigned char) [[data objectAtIndex:index] charValue];
+    return (unsigned char) [[_data objectAtIndex:index] charValue];
 }
 
 - (void)addLong:(long)val {
-    [data addObject:[NSNumber numberWithLong:val]];
+    [_data addObject:[NSNumber numberWithLong:val]];
 }
 
 - (long)getLong:(NSUInteger)index {
-    return [[data objectAtIndex:index] longValue];
+    return [[_data objectAtIndex:index] longValue];
 }
 
 - (void)addDouble:(double)val {
-    [data addObject:[NSNumber numberWithDouble:val]];
+    [_data addObject:[NSNumber numberWithDouble:val]];
 }
 
 - (double)getDouble:(NSUInteger)index {
-    return [[data objectAtIndex:index] doubleValue];
+    return [[_data objectAtIndex:index] doubleValue];
 }
 
 - (void)addString:(NSString *)val {
-    [data addObject:val];
+    [_data addObject:val];
 }
 
 - (NSString *)getString:(NSUInteger)index {
-    return [data objectAtIndex:index];
+    return [_data objectAtIndex:index];
 }
 
 - (void)addBinary:(NSData *)val {
-    [data addObject:val];
+    [_data addObject:val];
 }
 
 - (NSData *)getBinary:(NSUInteger)index {
-    return [data objectAtIndex:index];
+    return [_data objectAtIndex:index];
 }
 
 - (void)addDecodedData:(DecodedData *)val {
-    [data addObject:val];
+    [_data addObject:val];
 }
 
 - (DecodedData *)getDecodedData:(NSUInteger)index {
-    return [data objectAtIndex:index];
+    return [_data objectAtIndex:index];
 }
 
 - (BOOL)isEqual:(id)object {
