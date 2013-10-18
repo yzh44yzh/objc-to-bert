@@ -80,7 +80,7 @@ NSString * otb_dec_atom(NSData *val){
 
     [val getBytes:str range:NSMakeRange(3, length)];
     str[length] = 0;
-    NSString *res = [NSString stringWithUTF8String:str];
+    NSString *res = @(str);
     return res;
 }
 
@@ -106,7 +106,7 @@ NSString * otb_dec_string(NSData *val) {
     char str[length];
     [val getBytes:str range:NSMakeRange(3, length)];
     str[length] = 0;
-    return [NSString stringWithUTF8String:str];
+    return @(str);
 }
 
 NSUInteger otb_get_string_buf_length(NSData *val) {
@@ -158,7 +158,7 @@ NSString * otb_dec_bstr(NSData * val) {
     char buf[length + 1];
     [dt getBytes:buf length:length];
     buf[length] = 0;
-    return [NSString stringWithUTF8String:buf];
+    return @(buf);
 }
 
 NSData * otb_enc_tuple(NSArray *items) {
